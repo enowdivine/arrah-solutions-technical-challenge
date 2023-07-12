@@ -43,12 +43,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     marginHorizontal: 10,
+    //
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
   },
   wrapper: {
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ccc",
+    backgroundColor: "whitesmoke",
     borderRadius: 20,
     paddingVertical: 40,
   },

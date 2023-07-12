@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import theme from "../../../theme";
 
 const ForgotPassword = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginBottom: 20,
+    color: theme.mainColor,
   },
   loginForm: {
     width: 400,
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: "100%",
-    backgroundColor: "black",
+    backgroundColor: theme.mainColor,
     borderRadius: 10,
     padding: 15,
   },
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
   },
   signupLink: {
     fontWeight: "bold",
+    color: theme.mainColor,
   },
 });
 

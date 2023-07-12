@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 
-const welcome = ({ navigation }) => {
+const Welcome = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -47,7 +47,7 @@ const welcome = ({ navigation }) => {
   );
 };
 
-export default welcome;
+export default Welcome;
 
 const styles = StyleSheet.create({
   container: {

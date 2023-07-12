@@ -1,28 +1,26 @@
 import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+  FontAwesome,
+  Entypo,
+  MaterialIcons,
+  FontAwesome5,
+  AntDesign,
+} from "@expo/vector-icons";
 import theme from "../../../../theme";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [data, setData] = useState([
     {
-      icon: "test",
+      icon: "user-circle",
       text: "Account Settings",
     },
     {
-      icon: "test",
+      icon: "lock",
       text: "Change Password",
     },
     {
-      icon: "test",
+      icon: "contact-support",
       text: "Help & Support",
     },
     {
@@ -34,22 +32,44 @@ const Profile = () => {
       text: "Logout",
     },
   ]);
+
   return (
     <View style={styles.container}>
       <View style={styles.profileTop}>
         <Text style={styles.heading}>Profile</Text>
       </View>
       <View style={styles.profileList}>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => {
-            return (
-              <View>
-                <Text>{item.text}</Text>
-              </View>
-            );
-          }}
-        />
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("Settings")}
+        >
+          <FontAwesome5 name="user-circle" color={theme.mainColor} size={25} />
+          <Text style={styles.itemText}>Account Settings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <FontAwesome5 name="lock" color={theme.mainColor} size={25} />
+          <Text style={styles.itemText}>Change Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <MaterialIcons
+            name="contact-support"
+            color={theme.mainColor}
+            size={25}
+          />
+          <Text style={styles.itemText}>Help & Support</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <MaterialIcons
+            name="contact-support"
+            color={theme.mainColor}
+            size={25}
+          />
+          <Text style={styles.itemText}>About</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <MaterialIcons name="logout" color={theme.mainColor} size={25} />
+          <Text style={styles.itemText}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -78,6 +98,18 @@ const styles = StyleSheet.create({
   profileList: {
     width: "100%",
     flex: 1,
+  },
+  listItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    display: "flex",
+    flexDirection: "row",
+  },
+  itemText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 10,
   },
 });
 

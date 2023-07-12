@@ -14,6 +14,7 @@ import PlansCard from "../../../components/PlansCard";
 
 const Premium = () => {
   const [data, setData] = useState([1, 2, 3, 4]);
+
   return (
     <View style={styles.container}>
       <View style={styles.premiumTop}>

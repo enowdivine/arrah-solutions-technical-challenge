@@ -32,9 +32,14 @@ const styles = StyleSheet.create({
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "cream-white",
+    backgroundColor: "white",
     padding: 10,
     marginBottom: 10,
+    //
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
   },
   image: {
     width: 90,
