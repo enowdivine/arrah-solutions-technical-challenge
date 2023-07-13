@@ -11,9 +11,11 @@ import {
 } from "react-native";
 import theme from "../../../../theme";
 import PlansCard from "../../../components/PlansCard";
+import Subscribe from "./Subscribe";
 
 const Premium = () => {
   const [data, setData] = useState([1, 2, 3, 4]);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -24,10 +26,14 @@ const Premium = () => {
         <FlatList
           data={data}
           renderItem={({ item }) => {
-            return <PlansCard />;
+            return <PlansCard subBtn={() => setShowModal(true)} />;
           }}
         />
       </View>
+      <Subscribe
+        showSubscribeModal={showModal}
+        onCloseCancel={() => setShowModal(false)}
+      />
     </View>
   );
 };

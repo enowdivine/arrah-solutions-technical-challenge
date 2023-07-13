@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import CoffeeListView from "../../../components/CoffeeListView";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   return (
@@ -25,7 +25,13 @@ const Home = () => {
         <FlatList
           data={data}
           renderItem={({ item }) => {
-            return <CoffeeListView />;
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AudioPlayer")}
+              >
+                <CoffeeListView />
+              </TouchableOpacity>
+            );
           }}
         />
       </View>

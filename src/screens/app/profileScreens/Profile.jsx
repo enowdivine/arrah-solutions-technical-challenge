@@ -8,8 +8,10 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import theme from "../../../../theme";
+import UpdatePassword from "./UpdatePassword";
 
 const Profile = ({ navigation }) => {
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [data, setData] = useState([
     {
       icon: "user-circle",
@@ -46,7 +48,10 @@ const Profile = ({ navigation }) => {
           <FontAwesome5 name="user-circle" color={theme.mainColor} size={25} />
           <Text style={styles.itemText}>Account Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => setShowPasswordModal(true)}
+        >
           <FontAwesome5 name="lock" color={theme.mainColor} size={25} />
           <Text style={styles.itemText}>Change Password</Text>
         </TouchableOpacity>
@@ -71,6 +76,10 @@ const Profile = ({ navigation }) => {
           <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
       </View>
+      <UpdatePassword
+        showUpdatePasswordModal={showPasswordModal}
+        onCloseCancel={() => setShowPasswordModal(false)}
+      />
     </View>
   );
 };

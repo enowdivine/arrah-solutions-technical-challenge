@@ -11,7 +11,7 @@ import {
 
 const CoffeeListView = ({ title }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.imageView}>
         <Image
           source={require("../../assets/logo/coffee.jpeg")}
@@ -23,7 +23,7 @@ const CoffeeListView = ({ title }) => {
         <Text style={styles.title}>Letting go of anxiety</Text>
         <Text style={styles.date}>5 Days Ago</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

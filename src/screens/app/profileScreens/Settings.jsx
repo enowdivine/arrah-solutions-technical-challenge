@@ -16,9 +16,11 @@ import {
 } from "@expo/vector-icons";
 import theme from "../../../../theme";
 import DeleteAccount from "./DeleteAccount";
+import UpdateAccountDetails from "./UpdateAccountDetails";
 
 const Settings = ({ navigation }) => {
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [userDetails, setUserDetails] = useState(false);
 
   return (
     <View>
@@ -32,7 +34,10 @@ const Settings = ({ navigation }) => {
         <Text style={styles.heading}>Accounts Settings</Text>
       </View>
       <View>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => setUserDetails(true)}
+        >
           <FontAwesome5 name="user-circle" color={theme.mainColor} size={23} />
           <Text style={styles.itemText}>Edit Account Details</Text>
         </TouchableOpacity>
@@ -47,6 +52,10 @@ const Settings = ({ navigation }) => {
       <DeleteAccount
         showDeleteModal={deleteAccount}
         onCloseCancel={() => setDeleteAccount(false)}
+      />
+      <UpdateAccountDetails
+        showUpdateModal={userDetails}
+        onCloseCancel={() => setUserDetails(false)}
       />
     </View>
   );

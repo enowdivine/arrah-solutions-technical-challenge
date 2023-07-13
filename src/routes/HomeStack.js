@@ -4,6 +4,7 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import Home from "../screens/app/homeScreens/Home";
+import AudioPlayer from "../screens/app/homeScreens/AudioPlayer";
 
 const HomeStackScreen = createStackNavigator();
 
@@ -21,6 +22,14 @@ const HomeStack = () => {
         }}
         name="Homestack"
         component={Home}
+      />
+      {/* AUDIO PLAYER */}
+      <HomeStackScreen.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="AudioPlayer"
+        component={AudioPlayer}
       />
     </HomeStackScreen.Navigator>
   );

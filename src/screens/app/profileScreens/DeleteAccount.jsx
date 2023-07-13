@@ -12,7 +12,7 @@ import ModalSheet from "../../../components/ModalSheet";
 const DeleteAccount = ({ showDeleteModal, onCloseCancel }) => {
   return (
     <ModalSheet
-      //   animationType="slide"
+      // animationType="slide"
       show={showDeleteModal}
       onClose={onCloseCancel}
     >
@@ -22,14 +22,14 @@ const DeleteAccount = ({ showDeleteModal, onCloseCancel }) => {
             <AntDesign name="exclamationcircleo" size={80} color="red" />
           </View>
           <View style={styles.cancelDetails}>
-            <Text style={styles.cancelHeader}>Cancel Reservation</Text>
+            <Text style={styles.cancelHeader}>Delete Account</Text>
             <Text style={styles.cancelBody}>
-              Are you sure you want to cancel your reservation? There will be no
+              Are you sure you want to delete your account? There will be no
               refunds at all.
             </Text>
           </View>
           <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
-            <Text style={styles.cancelReservationBtn}>Cancel Reservation</Text>
+            <Text style={styles.cancelReservationBtn}>Delete Now</Text>
           </TouchableOpacity>
         </View>
       </View>

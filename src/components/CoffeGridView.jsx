@@ -10,7 +10,7 @@ import {
 
 const CoffeGridView = () => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.imageView}>
         <Image
           source={require("../../assets/logo/coffee.jpeg")}
@@ -20,7 +20,7 @@ const CoffeGridView = () => {
       <View style={styles.details}>
         <Text style={styles.title}>Letting go of anxiety</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
+    margin: 12,
   },
   image: {
     width: 180,

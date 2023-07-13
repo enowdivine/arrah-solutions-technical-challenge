@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-const PlansCard = () => {
+const PlansCard = ({ subBtn }) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -28,7 +28,7 @@ const PlansCard = () => {
           similique cum quibusdam? Id eius possimus ea molestiae numquam,
           repellat a?
         </Text>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={subBtn}>
           <Text style={styles.btnText}>Subscribe</Text>
         </TouchableOpacity>
       </View>

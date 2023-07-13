@@ -12,7 +12,7 @@ import {
 import theme from "../../../../theme";
 import CoffeGridView from "../../../components/CoffeGridView";
 
-const Search = () => {
+const Search = ({ navigation }) => {
   const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   return (
@@ -25,7 +25,13 @@ const Search = () => {
         <FlatList
           data={data}
           renderItem={({ item }) => {
-            return <CoffeGridView />;
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AudioPlayer")}
+              >
+                <CoffeGridView />
+              </TouchableOpacity>
+            );
           }}
           numColumns={2}
           keyExtractor={(item, index) => index.toString()}
