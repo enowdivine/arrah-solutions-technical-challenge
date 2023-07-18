@@ -8,20 +8,26 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import TextTicker from "react-native-text-ticker";
 
-const CoffeeListView = ({ title }) => {
+const CoffeeListView = ({ title, coverImage, category, date }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image
-          source={require("../../assets/logo/coffee.jpeg")}
-          style={styles.image}
-        />
+        <Image source={coverImage} style={styles.image} />
       </View>
       <View style={styles.details}>
-        <Text style={styles.category}>Category</Text>
-        <Text style={styles.title}>Letting go of anxiety</Text>
-        <Text style={styles.date}>5 Days Ago</Text>
+        <Text style={styles.category}>{category}</Text>
+        <TextTicker
+          width={300}
+          duration={30000}
+          loop
+          bounce={false}
+          style={styles.title}
+        >
+          {title}
+        </TextTicker>
+        <Text style={styles.date}>{date}</Text>
       </View>
     </View>
   );

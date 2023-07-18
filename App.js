@@ -5,16 +5,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import RootStack from "./src/routes/RootStack";
 import store from "./src/redux/store";
 import { Provider } from "react-redux";
+import AudioProvider from "./src/context/AudioProvider";
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <PaperProvider>
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+    <AudioProvider>
+      <Provider store={store}>
+        <PaperProvider>
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </AudioProvider>
   );
 }
 

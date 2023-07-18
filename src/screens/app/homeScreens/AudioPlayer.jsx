@@ -1,85 +1,99 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   View,
   Image,
-  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import AudioRecorderPlayer from "react-native-audio-recorder-player";
-//
+import TextTicker from "react-native-text-ticker";
+import { Audio } from "expo-av";
+import { AudioContext } from "../../../context/AudioProvider";
 import PlayButton from "../../../components/PlayButton";
+import { convertTime } from "../../../helpers/timeConverter";
+import { play, pause, resume } from "../../../helpers/audioController";
 
-const AudioPlayer = () => {
-  const [isAlreadyPlay, setisAlreadyPlay] = useState(false);
-  const [duration, setDuration] = useState("00:00:00");
-  const [timeElapsed, setTimeElapsed] = useState("00:00:00");
-  const [percent, setPercent] = useState(0);
-  const [current_track, setCurrentTrack] = useState(0);
-  const [inprogress, setInprogress] = useState(false);
-  const [audioRecorderPlayer] = useState(new AudioRecorderPlayer());
+const AudioPlayer = ({ route }) => {
+  const [loadedSound, setLoadedSound] = useState(null);
+  const [duration, setDuration] = useState("00:00");
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const context = useContext(AudioContext);
+  const { playbackPosition, playbackDuration } = context;
 
-  const onStartPress = async (e) => {
-    setisAlreadyPlay(true);
-    setInprogress(true);
-    const path = "file://" + dirs + "/" + playlist[current_track].path;
-    audioRecorderPlayer.startPlayer(path);
-    audioRecorderPlayer.setVolume(1.0);
+  useEffect(() => {
+    setLoadedSound(route.params.item);
+  }, []);
 
-    audioRecorderPlayer.addPlayBackListener(async (e) => {
-      if (e.current_position === e.duration) {
-        audioRecorderPlayer.stopPlayer();
-      }
-      let percent = Math.round(
-        (Math.floor(e.current_position) / Math.floor(e.duration)) * 100
+  const calculateSeekBar = () => {
+    if (playbackPosition !== null && playbackDuration !== null) {
+      return playbackPosition / playbackDuration;
+    }
+    return 0;
+  };
+
+  const handlePlayPause = async () => {
+    // play
+    if (context.soundObj === null && loadedSound) {
+      const playbackObj = new Audio.Sound();
+      const uri = require("../../../../assets/music/track-one.mp3");
+      const status = await play(playbackObj, uri);
+      await context.updateState(context, {
+        currentAudio: loadedSound,
+        soundObj: status,
+        playbackObj: playbackObj,
+        isPlaying: true,
+      });
+      return playbackObj.setOnPlaybackStatusUpdate(
+        context.onPlaybackStatusUpdate
       );
-      setTimeElapsed(e.current_position);
-      setPercent(percent);
-      setDuration(e.duration);
-    });
+    }
+
+    // pause audio
+    if (context.soundObj.isLoaded && context.isPlaying) {
+      const status = await pause(context.playbackObj);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: false,
+        playbackPosition: status.positionMillis,
+      });
+    }
+
+    // resume audio
+    if (context.soundObj.isLoaded && !context.isPlaying) {
+      const status = await resume(context.playbackObj);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: true,
+      });
+    }
   };
 
-  const onPausePress = async (e) => {
-    setisAlreadyPlay(false);
-    audioRecorderPlayer.pausePlayer();
+  const renderCurrentTime = () => {
+    return convertTime(context.playbackPosition / 1000);
   };
+
+  // useEffect(() => {
+  //   return sound
+  //     ? () => {
+  //         sound.unloadAsync();
+  //         // context.updateState(context, {
+  //         //   soundObj: null,
+  //         //   playbackObj: null,
+  //         //   isPlaying: false,
+  //         // });
+  //       }
+  //     : undefined;
+  // }, [sound]);
 
   const onForward = async () => {
-    let curr_track = playlist[current_track];
-    let current_index = playlist.indexOf(curr_track) + 1;
-    if (current_index === playlist.length) {
-      setCurrentTrack(1);
-    } else {
-      setCurrentTrack((current_track) => current_track + 1);
-    }
-    onStopPress().then(async () => {
-      await onStartPress();
-    });
+    console.log("forward");
   };
 
   const onBackward = async () => {
-    let curr_track = playlist[current_track];
-
-    let current_index = playlist.indexOf(curr_track);
-
-    if (current_index === 0) {
-      setCurrentTrack(5);
-    } else {
-      setCurrentTrack((current_track) => current_track - 1);
-    }
-    onStopPress().then(async () => {
-      await onStartPress();
-    });
-  };
-
-  const changeTime = async (seconds) => {
-    // 50 / duration
-    let seektime = (seconds / 100) * duration;
-    setTimeElapsed(seektime);
-    audioRecorderPlayer.seekToPlayer(seektime);
+    console.log("backward");
   };
 
   return (
@@ -90,49 +104,72 @@ const AudioPlayer = () => {
           <Text style={styles.text}>Coffee Player</Text>
         </View>
         <View style={styles.coverContainer}>
-          {/* <Image
-            source={{
-              uri: playlist[current_track].cover,
-            }}
-            style={styles.cover}
-          /> */}
           <Image
-            source={require("../../../../assets/logo/coffee.jpeg")}
+            source={loadedSound && loadedSound.coverImage}
             style={styles.cover}
           />
         </View>
 
         <View style={styles.trackname}>
-          <Text style={[styles.textDark, { fontSize: 20, fontWeight: "500" }]}>
-            {/* {playlist[current_track].title} */}
-            My Track Title
-          </Text>
+          <TextTicker
+            width={300}
+            duration={30000}
+            loop
+            bounce={false}
+            style={[styles.textDark, { fontSize: 20, fontWeight: "500" }]}
+          >
+            {loadedSound && loadedSound.title}
+          </TextTicker>
         </View>
       </View>
-
       <View>
         <Slider
-          style={{ width: 330, height: 40 }}
           minimumValue={0}
-          maximumValue={100}
-          trackStyle={styles.track}
-          thumbStyle={styles.thumb}
-          value={percent}
+          maximumValue={1}
+          value={calculateSeekBar()}
           minimumTrackTintColor="#93A8B3"
           maximumTrackTintColor="#000000"
-          onValueChange={(seconds) => changeTime(seconds)}
+          thumbStyle={styles.thumb}
+          trackStyle={styles.track}
+          style={{ width: 330, height: 40 }}
+          onValueChange={(value) => {
+            setCurrentPosition(
+              convertTime((value * context.playbackDuration) / 1000)
+            );
+          }}
+          onSlidingStart={async () => {
+            if (!context.isPlaying) return;
+            try {
+              await pause(context.playbackObj);
+            } catch (error) {
+              console.error("error inside onSlideStart callback", error);
+            }
+          }}
+          onSlidingComplete={async (value) => {
+            if (context.soundObj === null || !context.isPlaying) return;
+            try {
+              const status = await context.playbackObj.setPositionAsync(
+                Math.floor(context.playbackDuration * value)
+              );
+              context.updateState(context, {
+                soundObj: status,
+                playbackPosition: status.positionMillis,
+              });
+              await resume(context.playbackObj);
+            } catch (error) {
+              console.error("error inside onSlidingComplete callback", error);
+            }
+          }}
         />
       </View>
       <View style={styles.inprogress}>
         <Text style={[styles.textLight, styles.timeStamp]}>
-          {!inprogress
-            ? timeElapsed
-            : audioRecorderPlayer.mmssss(Math.floor(timeElapsed))}
+          {context.playbackPosition === null ? duration : renderCurrentTime()}
         </Text>
         <Text style={[styles.textLight, styles.timeStamp]}>
-          {!inprogress
+          {context.playbackDuration === null
             ? duration
-            : audioRecorderPlayer.mmssss(Math.floor(duration))}
+            : convertTime(context.playbackDuration / 1000)}
         </Text>
       </View>
       <View style={styles.controlBtns}>
@@ -140,10 +177,13 @@ const AudioPlayer = () => {
           <FontAwesome name="backward" size={32} color="#93A8B3" />
         </TouchableOpacity>
         <View>
-          {!isAlreadyPlay ? (
-            <PlayButton function={() => onStartPress()} state="play" />
+          {loadedSound ? (
+            <PlayButton
+              onPress={handlePlayPause}
+              state={context.isPlaying ? "pause" : "play"}
+            />
           ) : (
-            <PlayButton function={() => onPausePress()} state="pause" />
+            <ActivityIndicator size={"large"} />
           )}
         </View>
         <TouchableOpacity onPress={() => onForward()}>
@@ -160,6 +200,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  loadSoundBtn: {
+    marginTop: 20,
+    backgroundColor: "purple",
+  },
+  loadBtnText: {
+    color: "white",
+    padding: 10,
   },
   textLight: {
     textAlign: "center",

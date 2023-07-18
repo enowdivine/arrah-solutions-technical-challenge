@@ -7,18 +7,24 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import TextTicker from "react-native-text-ticker";
 
-const CoffeGridView = () => {
+const CoffeGridView = ({ title, coverImage }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image
-          source={require("../../assets/logo/coffee.jpeg")}
-          style={styles.image}
-        />
+        <Image source={coverImage} style={styles.image} />
       </View>
       <View style={styles.details}>
-        <Text style={styles.title}>Letting go of anxiety</Text>
+        <TextTicker
+          width={150}
+          duration={30000}
+          loop
+          bounce={false}
+          style={styles.title}
+        >
+          {title}
+        </TextTicker>
       </View>
     </View>
   );
