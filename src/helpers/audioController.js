@@ -30,3 +30,15 @@ export const resume = async (playbackObj) => {
     console.log("error inside resume helper method", error.message);
   }
 };
+
+// pause audio
+export const stop = async (playbackObj) => {
+  try {
+    return await playbackObj.setStatusAsync({
+      shouldPlay: false,
+      didJustFinish: true,
+    });
+  } catch (error) {
+    console.log("error inside stop helper method", error.message);
+  }
+};

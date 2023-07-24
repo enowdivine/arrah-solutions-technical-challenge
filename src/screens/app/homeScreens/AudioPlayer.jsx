@@ -14,7 +14,7 @@ import { Audio } from "expo-av";
 import { AudioContext } from "../../../context/AudioProvider";
 import PlayButton from "../../../components/PlayButton";
 import { convertTime } from "../../../helpers/timeConverter";
-import { play, pause, resume } from "../../../helpers/audioController";
+import { play, pause, resume, stop } from "../../../helpers/audioController";
 
 const AudioPlayer = ({ route }) => {
   const [loadedSound, setLoadedSound] = useState(null);
@@ -23,9 +23,43 @@ const AudioPlayer = ({ route }) => {
   const context = useContext(AudioContext);
   const { playbackPosition, playbackDuration } = context;
 
+  const playbackObj = new Audio.Sound();
+
+  const playNewSound = async () => {
+    if (loadedSound) {
+      const uri = require("../../../../assets/music/track-one.mp3");
+      const status = await play(playbackObj, uri);
+      await context.updateState(context, {
+        currentAudio: loadedSound,
+        soundObj: status,
+        playbackObj: playbackObj,
+        isPlaying: true,
+      });
+      return playbackObj.setOnPlaybackStatusUpdate(
+        context.onPlaybackStatusUpdate
+      );
+    }
+  };
+
   useEffect(() => {
-    setLoadedSound(route.params.item);
-  }, []);
+    if (context.currentAudio === {}) {
+      setLoadedSound(route.params.item);
+      playNewSound();
+      return;
+    }
+    if (context.currentAudio && route.params.item === context.currentAudio) {
+      return;
+    }
+    if (context.currentAudio && route.params.item !== context.currentAudio) {
+      setLoadedSound(route.params.item);
+      stop(context.playbackObj);
+      playNewSound();
+    }
+
+    // await context.updateState(context, {
+    //   currentAudio: loadedSound,
+    // });
+  }, [loadedSound, route.params.item]);
 
   const calculateSeekBar = () => {
     if (playbackPosition !== null && playbackDuration !== null) {
@@ -38,7 +72,7 @@ const AudioPlayer = ({ route }) => {
     // play
     if (context.soundObj === null && loadedSound) {
       const playbackObj = new Audio.Sound();
-      const uri = require("../../../../assets/music/track-one.mp3");
+      const uri = require("../../../../assets/music/track-two.mp3");
       const status = await play(playbackObj, uri);
       await context.updateState(context, {
         currentAudio: loadedSound,

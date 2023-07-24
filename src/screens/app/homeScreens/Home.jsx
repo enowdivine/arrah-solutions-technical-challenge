@@ -13,39 +13,35 @@ import CoffeeListView from "../../../components/CoffeeListView";
 const Home = ({ navigation }) => {
   const playList = [
     {
-      title:
-        "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
+      title: "one",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
       track: `${require("../../../../assets/music/track-one.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
-      title: "Tract two Lorem Lorem ",
+      title: "two",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
       track: `${require("../../../../assets/music/track-two.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
     {
-      title:
-        "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
+      title: "three",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
       track: `${require("../../../../assets/music/track-one.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
-      title:
-        "Tract two Lorem Lorem one Lorem Lorem ipsum dolor sit, amet consectetur",
+      title: "four",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
       track: `${require("../../../../assets/music/track-two.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
     {
-      title:
-        "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
+      title: "five",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
       track: `${require("../../../../assets/music/track-one.mp3")}`,
       category: "category one",
