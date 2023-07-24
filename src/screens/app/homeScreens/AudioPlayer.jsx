@@ -25,6 +25,23 @@ const AudioPlayer = ({ route }) => {
 
   const playbackObj = new Audio.Sound();
 
+  useEffect(() => {
+    if (context.currentAudio === {}) {
+      setLoadedSound(route.params.item);
+      playNewSound();
+      return;
+    }
+    if (context.currentAudio && route.params.item === context.currentAudio) {
+      setLoadedSound(context.currentAudio);
+      return;
+    }
+    if (context.currentAudio && route.params.item !== context.currentAudio) {
+      setLoadedSound(route.params.item);
+      stop(context.playbackObj);
+      playNewSound();
+    }
+  }, [loadedSound, route.params.item]);
+
   const playNewSound = async () => {
     if (loadedSound) {
       const uri = require("../../../../assets/music/track-one.mp3");
@@ -40,26 +57,6 @@ const AudioPlayer = ({ route }) => {
       );
     }
   };
-
-  useEffect(() => {
-    if (context.currentAudio === {}) {
-      setLoadedSound(route.params.item);
-      playNewSound();
-      return;
-    }
-    if (context.currentAudio && route.params.item === context.currentAudio) {
-      return;
-    }
-    if (context.currentAudio && route.params.item !== context.currentAudio) {
-      setLoadedSound(route.params.item);
-      stop(context.playbackObj);
-      playNewSound();
-    }
-
-    // await context.updateState(context, {
-    //   currentAudio: loadedSound,
-    // });
-  }, [loadedSound, route.params.item]);
 
   const calculateSeekBar = () => {
     if (playbackPosition !== null && playbackDuration !== null) {
@@ -109,25 +106,34 @@ const AudioPlayer = ({ route }) => {
     return convertTime(context.playbackPosition / 1000);
   };
 
-  // useEffect(() => {
-  //   return sound
-  //     ? () => {
-  //         sound.unloadAsync();
-  //         // context.updateState(context, {
-  //         //   soundObj: null,
-  //         //   playbackObj: null,
-  //         //   isPlaying: false,
-  //         // });
-  //       }
-  //     : undefined;
-  // }, [sound]);
-
   const onForward = async () => {
-    console.log("forward");
+    if (context.soundObj === null || !context.isPlaying) return;
+    try {
+      const status = await context.playbackObj.setPositionAsync(
+        Math.floor(context.playbackPosition + 15000)
+      );
+      context.updateState(context, {
+        soundObj: status,
+        playbackPosition: status.positionMillis,
+      });
+    } catch (error) {
+      console.error("error inside forward button function", error);
+    }
   };
 
   const onBackward = async () => {
-    console.log("backward");
+    if (context.soundObj === null || !context.isPlaying) return;
+    try {
+      const status = await context.playbackObj.setPositionAsync(
+        Math.floor(context.playbackPosition - 10000)
+      );
+      context.updateState(context, {
+        soundObj: status,
+        playbackPosition: status.positionMillis,
+      });
+    } catch (error) {
+      console.error("error inside backward button function", error);
+    }
   };
 
   return (
