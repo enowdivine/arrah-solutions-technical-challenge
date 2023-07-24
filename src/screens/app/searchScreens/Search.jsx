@@ -18,14 +18,14 @@ const Search = ({ navigation }) => {
       title:
         "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/track-one.mp3")}`,
+      track: `${require("../../../../assets/music/relaxing.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
       title: "Tract two Lorem Lorem ",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/track-two.mp3")}`,
+      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
@@ -33,7 +33,7 @@ const Search = ({ navigation }) => {
       title:
         "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/track-one.mp3")}`,
+      track: `${require("../../../../assets/music/relaxing.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
@@ -41,7 +41,7 @@ const Search = ({ navigation }) => {
       title:
         "Tract two Lorem Lorem one Lorem Lorem ipsum dolor sit, amet consectetur",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/track-two.mp3")}`,
+      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
@@ -49,14 +49,14 @@ const Search = ({ navigation }) => {
       title:
         "Track one Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam consequatur",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/track-one.mp3")}`,
+      track: `${require("../../../../assets/music/relaxing.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
       title: "Tract two Lorem Lorem Lorem ipsum",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/track-two.mp3")}`,
+      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },

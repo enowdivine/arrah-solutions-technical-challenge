@@ -23,7 +23,22 @@ const AudioPlayer = ({ route }) => {
   const context = useContext(AudioContext);
   const { playbackPosition, playbackDuration } = context;
 
-  const playbackObj = new Audio.Sound();
+  const playNewSound = async () => {
+    if (loadedSound) {
+      const playbackObj = new Audio.Sound();
+      const uri = require("../../../../assets/music/relaxing.mp3");
+      const status = await play(playbackObj, uri);
+      await context.updateState(context, {
+        currentAudio: loadedSound,
+        soundObj: status,
+        playbackObj: playbackObj,
+        isPlaying: true,
+      });
+      return playbackObj.setOnPlaybackStatusUpdate(
+        context.onPlaybackStatusUpdate
+      );
+    }
+  };
 
   useEffect(() => {
     if (context.currentAudio === {}) {
@@ -42,22 +57,6 @@ const AudioPlayer = ({ route }) => {
     }
   }, [loadedSound, route.params.item]);
 
-  const playNewSound = async () => {
-    if (loadedSound) {
-      const uri = require("../../../../assets/music/track-one.mp3");
-      const status = await play(playbackObj, uri);
-      await context.updateState(context, {
-        currentAudio: loadedSound,
-        soundObj: status,
-        playbackObj: playbackObj,
-        isPlaying: true,
-      });
-      return playbackObj.setOnPlaybackStatusUpdate(
-        context.onPlaybackStatusUpdate
-      );
-    }
-  };
-
   const calculateSeekBar = () => {
     if (playbackPosition !== null && playbackDuration !== null) {
       return playbackPosition / playbackDuration;
@@ -69,7 +68,7 @@ const AudioPlayer = ({ route }) => {
     // play
     if (context.soundObj === null && loadedSound) {
       const playbackObj = new Audio.Sound();
-      const uri = require("../../../../assets/music/track-two.mp3");
+      const uri = require("../../../../assets/music/relaxing.mp3");
       const status = await play(playbackObj, uri);
       await context.updateState(context, {
         currentAudio: loadedSound,
