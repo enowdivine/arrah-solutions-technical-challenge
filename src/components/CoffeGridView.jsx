@@ -38,10 +38,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 12,
   },
+  imageView: {
+    width: "100%",
+  },
   image: {
-    width: "50%",
-    height: 140,
-    borderRadius: 20,
+    width: "100%",
+    height: 100,
+    borderRadius: 10,
   },
   title: {
     fontWeight: "bold",

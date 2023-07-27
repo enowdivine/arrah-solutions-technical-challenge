@@ -40,6 +40,20 @@ const Home = ({ navigation }) => {
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
+    {
+      title: "coffee music",
+      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
+      track: `${require("../../../../assets/music/relaxing.mp3")}`,
+      category: "category one",
+      date: "20-04-2023 : 11:55",
+    },
+    {
+      title: "Calm atmosphere",
+      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
+      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
+      category: "category two",
+      date: "20-04-2023 : 11:55",
+    },
   ];
 
   return (

@@ -9,8 +9,11 @@ import {
 } from "@expo/vector-icons";
 import theme from "../../../../theme";
 import UpdatePassword from "./UpdatePassword";
+import { useDispatch } from "react-redux";
+import { updateState } from "../../../redux/reducers/authReducer";
 
 const Profile = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [data, setData] = useState([
     {
@@ -34,6 +37,16 @@ const Profile = ({ navigation }) => {
       text: "Logout",
     },
   ]);
+
+  const logoutHandler = () => {
+    try {
+      dispatch(updateState("")).then((res) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -71,7 +84,7 @@ const Profile = ({ navigation }) => {
           />
           <Text style={styles.itemText}>About</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem} onPress={logoutHandler}>
           <MaterialIcons name="logout" color={theme.mainColor} size={25} />
           <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
