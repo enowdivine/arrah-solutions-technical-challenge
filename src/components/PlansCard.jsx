@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "red",
   },
   price: {
-    fontSize: 50,
+    fontSize: 40,
     color: theme.mainColor,
   },
   description: {

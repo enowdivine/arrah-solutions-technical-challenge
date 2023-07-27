@@ -10,9 +10,24 @@ import {
   ScrollView,
 } from "react-native";
 import theme from "../../../theme";
+import { useDispatch } from "react-redux";
+import { updateState } from "../../redux/reducers/authReducer";
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  const loginHandler = () => {
+    try {
+      dispatch(updateState("token"), setLoading(true)).then((res) => {
+        console.log(res);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -39,15 +54,12 @@ const Login = ({ navigation }) => {
             {loading ? (
               <TouchableOpacity
                 style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
+                // onPress={() => setLoading(!loading)}
               >
                 <ActivityIndicator color="white" />
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
-              >
+              <TouchableOpacity style={styles.loginBtn} onPress={loginHandler}>
                 <Text style={styles.loginText}>LOG IN</Text>
               </TouchableOpacity>
             )}

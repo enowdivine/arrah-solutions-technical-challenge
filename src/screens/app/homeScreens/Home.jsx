@@ -13,42 +13,28 @@ import CoffeeListView from "../../../components/CoffeeListView";
 const Home = ({ navigation }) => {
   const playList = [
     {
-      title: "one",
+      title: "Relaxing",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
       track: `${require("../../../../assets/music/relaxing.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
-      title: "two",
+      title: "Life style",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
       track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
       category: "category two",
       date: "20-04-2023 : 11:55",
     },
     {
-      title: "three",
+      title: "coffee music",
       coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
       track: `${require("../../../../assets/music/relaxing.mp3")}`,
       category: "category one",
       date: "20-04-2023 : 11:55",
     },
     {
-      title: "four",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "five",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Tract two Lorem Lorem Lorem ipsum",
+      title: "Calm atmosphere",
       coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
       track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
       category: "category two",
@@ -108,7 +94,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 30,
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 20,
   },
   startWithText: {
     color: "white",

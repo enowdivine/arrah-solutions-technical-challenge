@@ -11,6 +11,20 @@ export default class AudioProvider extends Component {
       isPlaying: false,
       playbackPosition: null,
       playbackDuration: null,
+      // helpful questions state objects
+      improveSleep: false,
+      improveFocus: false,
+      reduceStress: false,
+      selfImprovement: false,
+      calmAtWork: false,
+      // recent feeling question
+      latelyFeeling: "",
+      biggestStress: "",
+      stressSymtom: "",
+      meditationExperience: "",
+      meditationPace: "",
+      stateOfMind: "",
+      meditationTime: "",
     };
   }
 
@@ -46,6 +60,20 @@ export default class AudioProvider extends Component {
       isPlaying,
       playbackPosition,
       playbackDuration,
+      //
+      improveSleep,
+      improveFocus,
+      reduceStress,
+      selfImprovement,
+      calmAtWork,
+      //
+      latelyFeeling,
+      biggestStress,
+      stressSymtom,
+      meditationExperience,
+      meditationPace,
+      stateOfMind,
+      meditationTime,
     } = this.state;
     return (
       <AudioContext.Provider
@@ -56,6 +84,21 @@ export default class AudioProvider extends Component {
           isPlaying,
           playbackPosition,
           playbackDuration,
+          //
+          improveSleep,
+          improveFocus,
+          reduceStress,
+          selfImprovement,
+          calmAtWork,
+          //
+          latelyFeeling,
+          biggestStress,
+          stressSymtom,
+          meditationExperience,
+          meditationPace,
+          stateOfMind,
+          meditationTime,
+          //
           updateState: this.updateState,
           onPlaybackStatusUpdate: this.onPlaybackStatusUpdate,
         }}
