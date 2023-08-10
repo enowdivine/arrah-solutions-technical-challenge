@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import theme from "../../../../theme";
 import {
   ActivityIndicator,
@@ -9,8 +9,15 @@ import {
   FlatList,
 } from "react-native";
 import CoffeeListView from "../../../components/CoffeeListView";
+import { useDispatch, useSelector } from "react-redux";
+import { sounds } from "../../../redux/reducers/soundReducer";
+import { userDetails } from "../../../redux/reducers/authReducer";
+import userId from "../../../shared/userId";
 
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const id = userId();
+
   const playList = [
     {
       title: "Relaxing",
@@ -55,6 +62,16 @@ const Home = ({ navigation }) => {
       date: "20-04-2023 : 11:55",
     },
   ];
+  const allsounds = useSelector((state) => state.sound.sounds);
+  const user = useSelector((state) => state.auth.user);
+  console.log(allsounds);
+  console.log(id);
+  console.log("user", user);
+
+  useEffect(() => {
+    dispatch(sounds());
+    dispatch(userDetails(id));
+  }, []);
 
   return (
     <View style={styles.container}>

@@ -10,21 +10,39 @@ import {
   ScrollView,
 } from "react-native";
 import theme from "../../../theme";
+import { Ionicons } from "@expo/vector-icons";
+import { globalStyles } from "../../shared/globalStyles";
 import { useDispatch } from "react-redux";
-import { updateState } from "../../redux/reducers/authReducer";
+import { login } from "../../redux/reducers/authReducer";
+import Error from "../../components/Error";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const loginHandler = () => {
-    try {
-      dispatch(updateState("token"), setLoading(true)).then((res) => {
-        console.log(res);
+  const loginHandler = async () => {
+    if (phoneNumber && password) {
+      try {
+        const data = {
+          phoneNumber,
+          password,
+        };
+        dispatch(login(data), setLoading(true)).then((res) => {
+          if (res.meta.requestStatus === "rejected") {
+            setError("Signup Failed");
+            setLoading(false);
+          }
+        });
+      } catch (error) {
+        setError("An error occured");
         setLoading(false);
-      });
-    } catch (error) {
-      console.error(error);
+      }
+    } else {
+      setError("All fields are required");
       setLoading(false);
     }
   };
@@ -45,17 +63,29 @@ const Login = ({ navigation }) => {
               style={styles.textInput}
               placeholder="Enter phone number"
               keyboardType="numeric"
+              onChangeText={(value) => setPhoneNumber(value)}
             />
           </View>
-          <View style={styles.textInputView}>
-            <TextInput style={styles.textInput} placeholder="Enter password" />
+          <View style={globalStyles.inputView}>
+            <View style={globalStyles.passwordInputView}>
+              <TextInput
+                style={globalStyles.passwordInput}
+                secureTextEntry={showPassword ? false : true}
+                placeholder="Enter password"
+                onChangeText={(value) => setPassword(value)}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View>
             {loading ? (
-              <TouchableOpacity
-                style={styles.loginBtn}
-                // onPress={() => setLoading(!loading)}
-              >
+              <TouchableOpacity style={styles.loginBtn}>
                 <ActivityIndicator color="white" />
               </TouchableOpacity>
             ) : (
@@ -64,6 +94,7 @@ const Login = ({ navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+          {error === null ? "" : <Error error={error} />}
           <View>
             <Text style={styles.accountQues}>
               Don't have an account?{" "}

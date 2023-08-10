@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./reducers/authReducer";
-// import profileSlice from "./reducers/profileReducer";
-// import messageSlice from "./reducers/messageReducer";
+import soundSlice from "./reducers/soundReducer";
+import premiumSlice from "./reducers/premiumReducer";
 
 const store = configureStore({
   reducer: {
     auth: authSlice,
-    // profile: profileSlice,
-    // messenger: messageSlice,
+    sound: soundSlice,
+    plans: premiumSlice,
   },
 });
 export default store;

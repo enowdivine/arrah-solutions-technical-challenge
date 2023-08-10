@@ -32,7 +32,7 @@ const Welcome = ({ navigation }) => {
             style={styles.signinBtn}
             onPress={() => navigation.navigate("Signup")}
           >
-            <Text style={styles.signinText}>SIGN IN</Text>
+            <Text style={styles.signinText}>SIGN UP</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.loginBtn}

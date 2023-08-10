@@ -25,10 +25,10 @@ const UpdateAccountDetails = ({ showUpdateModal, onCloseCancel }) => {
             <Text style={styles.cancelHeader}>Account Details</Text>
             <View style={styles.form}>
               <View style={styles.textInputView}>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Enter username"
-                />
+                <TextInput style={styles.textInput} placeholder="First name" />
+              </View>
+              <View style={styles.textInputView}>
+                <TextInput style={styles.textInput} placeholder="Last name" />
               </View>
               <View style={styles.textInputView}>
                 <TextInput

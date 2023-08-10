@@ -10,9 +10,40 @@ import {
   ScrollView,
 } from "react-native";
 import theme from "../../../theme";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../../redux/reducers/authReducer";
+import Error from "../../components/Error";
 
 const ForgotPassword = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+
+  const resetPasswordHandler = () => {
+    if (email) {
+      const data = {
+        email,
+      };
+      dispatch(resetPassword(data), setLoading(true))
+        .then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            setLoading(false);
+          }
+          if (res.meta.requestStatus === "rejected") {
+            setError("Reset password failed");
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          setError("Reset password failed");
+          setLoading(false);
+        });
+    } else {
+      setError("Email is required");
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -26,25 +57,27 @@ const ForgotPassword = ({ navigation }) => {
         </View>
         <View style={styles.loginForm}>
           <View style={styles.textInputView}>
-            <TextInput style={styles.textInput} placeholder="Enter email" />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter email"
+              onChangeText={(value) => setEmail(value)}
+            />
           </View>
           <View>
             {loading ? (
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
-              >
+              <TouchableOpacity style={styles.loginBtn}>
                 <ActivityIndicator color="white" />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
+                onPress={resetPasswordHandler}
               >
                 <Text style={styles.loginText}>RESET</Text>
               </TouchableOpacity>
             )}
           </View>
+          {error === null ? "" : <Error error={error} />}
           <View>
             <Text style={styles.accountQues}>
               Recall password?{" "}

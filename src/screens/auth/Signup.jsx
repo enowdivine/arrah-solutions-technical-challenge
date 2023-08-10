@@ -10,9 +10,51 @@ import {
   ScrollView,
 } from "react-native";
 import theme from "../../../theme";
+import { Ionicons } from "@expo/vector-icons";
+import { globalStyles } from "../../shared/globalStyles";
+import { useDispatch } from "react-redux";
+import { signup } from "../../redux/reducers/authReducer";
+import Error from "../../components/Error";
 
 const Signup = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
+  const SignupHandler = () => {
+    if (firstName && lastName && phoneNumber && email && password) {
+      const data = {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+      };
+      dispatch(signup(data), setLoading(true))
+        .then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            setLoading(false);
+          }
+          if (res.meta.requestStatus === "rejected") {
+            setError("Signup Failed");
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          setError(err);
+          setLoading(false);
+        });
+    } else {
+      setError("All fields are required");
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -26,38 +68,64 @@ const Signup = ({ navigation }) => {
         </View>
         <View style={styles.loginForm}>
           <View style={styles.textInputView}>
-            <TextInput style={styles.textInput} placeholder="Enter username" />
+            <TextInput
+              style={styles.textInput}
+              placeholder="First name"
+              onChangeText={(value) => setFirstName(value)}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Last name"
+              onChangeText={(value) => setLastName(value)}
+            />
           </View>
           <View style={styles.textInputView}>
             <TextInput
               style={styles.textInput}
               placeholder="Enter phone number"
               keyboardType="numeric"
+              onChangeText={(value) => setPhoneNumber(value)}
             />
           </View>
           <View style={styles.textInputView}>
-            <TextInput style={styles.textInput} placeholder="Enter email" />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter email"
+              onChangeText={(value) => setEmail(value)}
+            />
           </View>
-          <View style={styles.textInputView}>
-            <TextInput style={styles.textInput} placeholder="Enter password" />
+          <View style={globalStyles.inputView}>
+            <View style={globalStyles.passwordInputView}>
+              <TextInput
+                style={globalStyles.passwordInput}
+                secureTextEntry={showPassword ? false : true}
+                placeholder="Enter password"
+                onChangeText={(value) => setPassword(value)}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
+
           <View>
             {loading ? (
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
-              >
+              <TouchableOpacity style={styles.loginBtn}>
                 <ActivityIndicator color="white" />
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={() => setLoading(!loading)}
-              >
-                <Text style={styles.loginText}>SIGN IN</Text>
+              <TouchableOpacity style={styles.loginBtn} onPress={SignupHandler}>
+                <Text style={styles.loginText}>SIGN UP</Text>
               </TouchableOpacity>
             )}
           </View>
+          {error === null ? "" : <Error error={error} />}
           <View>
             <Text style={styles.accountQues}>
               Don't have an account?{" "}

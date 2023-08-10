@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -12,10 +12,20 @@ import {
 import theme from "../../../../theme";
 import PlansCard from "../../../components/PlansCard";
 import Subscribe from "./Subscribe";
+import { useDispatch, useSelector } from "react-redux";
+import { allPlans } from "../../../redux/reducers/premiumReducer";
 
 const Premium = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([1, 2, 3, 4]);
   const [showModal, setShowModal] = useState(false);
+
+  const allplans = useSelector((state) => state.plans);
+  console.log("plans", allplans);
+
+  useEffect(() => {
+    dispatch(allPlans());
+  }, []);
 
   return (
     <View style={styles.container}>
