@@ -12,22 +12,17 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-const PlansCard = ({ subBtn }) => {
+const PlansCard = ({ category, price, duration, desc, subBtn }) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <FontAwesome5 name="rocket" color={theme.mainColor} size={53} />
-        <Text style={styles.pro}>PRO</Text>
+        <Text style={styles.pro}>{category}</Text>
         <Text style={styles.plan}>
-          XAF <Text style={styles.price}>20000</Text> for 1 year
+          XAF <Text style={styles.price}>{price}</Text> for {duration} month(s)
         </Text>
 
-        <Text style={styles.description}>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
-          ipsa enim illo modi sint, praesentium optio maxime corrupti et,
-          similique cum quibusdam? Id eius possimus ea molestiae numquam,
-          repellat a?
-        </Text>
+        <Text style={styles.description}>{desc}</Text>
         <TouchableOpacity style={styles.btn} onPress={subBtn}>
           <Text style={styles.btnText}>Subscribe</Text>
         </TouchableOpacity>

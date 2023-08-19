@@ -14,7 +14,7 @@ const CoffeeListView = ({ title, coverImage, category, date }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image source={coverImage} style={styles.image} />
+        <Image src={coverImage} style={styles.image} />
       </View>
       <View style={styles.details}>
         <Text style={styles.category}>{category}</Text>

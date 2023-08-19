@@ -26,7 +26,7 @@ const AudioPlayer = ({ route }) => {
   const playNewSound = async () => {
     if (loadedSound) {
       const playbackObj = new Audio.Sound();
-      const uri = require("../../../../assets/music/relaxing.mp3");
+      const uri = loadedSound.filePath.snd;
       const status = await play(playbackObj, uri);
       await context.updateState(context, {
         currentAudio: loadedSound,
@@ -144,7 +144,7 @@ const AudioPlayer = ({ route }) => {
         </View>
         <View style={styles.coverContainer}>
           <Image
-            source={loadedSound && loadedSound.coverImage}
+            src={loadedSound && loadedSound.coverImage.img}
             style={styles.cover}
           />
         </View>

@@ -18,96 +18,13 @@ import userId from "../../../shared/userId";
 
 const Search = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [allSounds, setSounds] = useState([]);
   const id = userId();
 
-  const playList = [
-    {
-      title: "Relaxing",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Life style",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "coffee music",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Calm atmosphere",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "coffee music",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Calm atmosphere",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Relaxing",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Life style",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "coffee music",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "Calm atmosphere",
-      coverImage: `${require("../../../../assets/logo/coffee2.jpeg")}`,
-      track: `${require("../../../../assets/music/easy-lifestyle.mp3")}`,
-      category: "category two",
-      date: "20-04-2023 : 11:55",
-    },
-    {
-      title: "coffee music",
-      coverImage: `${require("../../../../assets/logo/coffee.jpeg")}`,
-      track: `${require("../../../../assets/music/relaxing.mp3")}`,
-      category: "category one",
-      date: "20-04-2023 : 11:55",
-    },
-  ];
-
-  const allsounds = useSelector((state) => state.sound.sounds);
-  const user = useSelector((state) => state.auth.user);
-  console.log(allsounds);
-  console.log(id);
-  console.log("user", user);
-
   useEffect(() => {
-    dispatch(sounds());
+    dispatch(sounds()).then((res) => {
+      setSounds(res.payload);
+    });
     dispatch(userDetails(id));
   }, []);
 
@@ -120,7 +37,7 @@ const Search = ({ navigation }) => {
       <View style={styles.soundList}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={playList}
+          data={allSounds}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
@@ -132,10 +49,10 @@ const Search = ({ navigation }) => {
               >
                 <CoffeGridView
                   title={item.title}
-                  coverImage={item.coverImage}
-                  track={item.track}
+                  coverImage={item.coverImage.img}
+                  track={item.filePath.snd}
                   category={item.category}
-                  date={item.date}
+                  date={item.createdAt}
                 />
               </TouchableOpacity>
             );

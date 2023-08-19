@@ -3,9 +3,12 @@ import { Audio } from "expo-av";
 // play audio
 export const play = async (playbackObj, uri) => {
   try {
-    return await playbackObj.loadAsync(uri, {
-      shouldPlay: true,
-    });
+    return await playbackObj.loadAsync(
+      { uri: uri },
+      {
+        shouldPlay: true,
+      }
+    );
   } catch (error) {
     console.log("error inside play helper method", error.message);
   }

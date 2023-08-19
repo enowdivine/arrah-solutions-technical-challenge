@@ -19,12 +19,12 @@ const Premium = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([1, 2, 3, 4]);
   const [showModal, setShowModal] = useState(false);
-
-  const allplans = useSelector((state) => state.plans);
-  console.log("plans", allplans);
+  const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    dispatch(allPlans());
+    dispatch(allPlans()).then((res) => {
+      setPlans(res.payload);
+    });
   }, []);
 
   return (
@@ -34,9 +34,17 @@ const Premium = () => {
       </View>
       <View style={styles.planList}>
         <FlatList
-          data={data}
+          data={plans}
           renderItem={({ item }) => {
-            return <PlansCard subBtn={() => setShowModal(true)} />;
+            return (
+              <PlansCard
+                category={item.category}
+                price={item.price}
+                duration={item.duration}
+                desc={item.desc}
+                subBtn={() => setShowModal(true)}
+              />
+            );
           }}
         />
       </View>

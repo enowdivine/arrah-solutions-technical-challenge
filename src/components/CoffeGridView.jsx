@@ -13,7 +13,7 @@ const CoffeGridView = ({ title, coverImage }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image source={coverImage} style={styles.image} />
+        <Image src={coverImage} style={styles.image} />
       </View>
       <View style={styles.details}>
         <TextTicker
