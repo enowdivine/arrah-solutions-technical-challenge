@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,13 +9,56 @@ import {
 } from "react-native";
 import theme from "../../../../theme";
 import ModalSheet from "../../../components/ModalSheet";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../redux/reducers/authReducer";
+import Success from "../../../components/Success";
+import Error from "../../../components/Error";
 
-const UpdateAccountDetails = ({ showUpdateModal, onCloseCancel }) => {
+const UpdateAccountDetails = ({ showUpdateModal, onCloseCancel, user }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    setFirstName(user?.firstName);
+    setLastName(user?.lastName);
+    setEmail(user?.email);
+    setPhoneNumber(user?.phoneNumber);
+  }, [user]);
+
+  const updateHandler = () => {
+    setLoading(true);
+    const data = {
+      id: user?._id,
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+    };
+    dispatch(updateUser(data), setLoading(true))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setSuccess("Account updated");
+          setLoading(false);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setError("Update Failed");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+      });
+  };
   return (
     <ModalSheet
-      //   animationType="slide"
+      // animationType="slide"
       show={showUpdateModal}
       onClose={onCloseCancel}
     >
@@ -25,39 +68,55 @@ const UpdateAccountDetails = ({ showUpdateModal, onCloseCancel }) => {
             <Text style={styles.cancelHeader}>Account Details</Text>
             <View style={styles.form}>
               <View style={styles.textInputView}>
-                <TextInput style={styles.textInput} placeholder="First name" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="First name"
+                  defaultValue={firstName}
+                  onChangeText={(value) => setFirstName(value)}
+                />
               </View>
               <View style={styles.textInputView}>
-                <TextInput style={styles.textInput} placeholder="Last name" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Last name"
+                  defaultValue={lastName}
+                  onChangeText={(value) => setLastName(value)}
+                />
               </View>
               <View style={styles.textInputView}>
                 <TextInput
                   style={styles.textInput}
                   placeholder="Enter phone number"
                   keyboardType="numeric"
+                  defaultValue={phoneNumber}
+                  onChangeText={(value) => setPhoneNumber(value)}
                 />
               </View>
               <View style={styles.textInputView}>
-                <TextInput style={styles.textInput} placeholder="Enter email" />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter email"
+                  defaultValue={email}
+                  onChangeText={(value) => setEmail(value)}
+                />
               </View>
             </View>
           </View>
           {loading ? (
-            <TouchableOpacity
-              style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
-            >
+            <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
               <ActivityIndicator color={theme.mainColor} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
+              onPress={updateHandler}
             >
               <Text style={styles.cancelReservationBtn}>Update Now</Text>
             </TouchableOpacity>
           )}
         </View>
+        {error === null ? "" : <Error error={error} />}
+        {success === null ? "" : <Success message={success} />}
       </View>
     </ModalSheet>
   );

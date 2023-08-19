@@ -17,10 +17,14 @@ import {
 import theme from "../../../../theme";
 import DeleteAccount from "./DeleteAccount";
 import UpdateAccountDetails from "./UpdateAccountDetails";
+import { useSelector } from "react-redux";
 
 const Settings = ({ navigation }) => {
   const [deleteAccount, setDeleteAccount] = useState(false);
   const [userDetails, setUserDetails] = useState(false);
+
+  const userObj = useSelector((state) => state.auth.user);
+  const user = userObj?.user;
 
   return (
     <View>
@@ -56,6 +60,7 @@ const Settings = ({ navigation }) => {
       <UpdateAccountDetails
         showUpdateModal={userDetails}
         onCloseCancel={() => setUserDetails(false)}
+        user={user}
       />
     </View>
   );

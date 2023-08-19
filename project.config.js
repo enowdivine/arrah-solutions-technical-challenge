@@ -1,4 +1,4 @@
 export default {
-  ENDPOINT: "http://192.168.43.196:5000",
+  ENDPOINT: "https://digitalcoffeeapp-d531e3f3aa7d.herokuapp.com",
   API_VERSION: "v1",
 };

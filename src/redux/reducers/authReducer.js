@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authServices from "../services/authServices";
 
 const initialState = {
-  userToken: "token",
+  userToken: "",
   user: null,
 };
 
@@ -67,6 +67,36 @@ export const userDetails = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "authentication/updateUser",
+  async (data, thunkAPI) => {
+    try {
+      return await authServices.updateUser(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  "authentication/updatePassword",
+  async (data, thunkAPI) => {
+    try {
+      return await authServices.updatePassword(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "authentication",
   initialState,
@@ -83,7 +113,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.userToken = action.payload;
       })
-      .addCase(user.fulfilled, (state, action) => {
+      .addCase(userDetails.fulfilled, (state, action) => {
         state.user = action.payload;
       });
   },

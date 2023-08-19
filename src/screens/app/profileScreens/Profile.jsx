@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import {
-  FontAwesome,
-  Entypo,
-  MaterialIcons,
-  FontAwesome5,
-  AntDesign,
-} from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import theme from "../../../../theme";
 import UpdatePassword from "./UpdatePassword";
-import { useDispatch } from "react-redux";
-import { updateState } from "../../../redux/reducers/authReducer";
+import Logout from "./Logout";
+import { useDispatch, useSelector } from "react-redux";
 
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [data, setData] = useState([
     {
       icon: "user-circle",
@@ -37,16 +32,8 @@ const Profile = ({ navigation }) => {
       text: "Logout",
     },
   ]);
-
-  const logoutHandler = () => {
-    try {
-      dispatch(updateState("")).then((res) => {
-        console.log(res);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const userObj = useSelector((state) => state.auth.user);
+  const user = userObj?.user;
 
   return (
     <View style={styles.container}>
@@ -84,7 +71,10 @@ const Profile = ({ navigation }) => {
           />
           <Text style={styles.itemText}>About</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem} onPress={logoutHandler}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => setShowLogoutModal(true)}
+        >
           <MaterialIcons name="logout" color={theme.mainColor} size={25} />
           <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
@@ -92,6 +82,11 @@ const Profile = ({ navigation }) => {
       <UpdatePassword
         showUpdatePasswordModal={showPasswordModal}
         onCloseCancel={() => setShowPasswordModal(false)}
+        user={user}
+      />
+      <Logout
+        showLogoutModal={showLogoutModal}
+        onCloseCancel={() => setShowLogoutModal(false)}
       />
     </View>
   );

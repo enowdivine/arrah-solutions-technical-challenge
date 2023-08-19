@@ -27,10 +27,32 @@ const userDetails = async (userId) => {
   return response.data;
 };
 
+const updateUser = async (data) => {
+  const response = await axios.put(`${URL}/update/${data.id}`, data, {
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+
+  return response.data;
+};
+
+const updatePassword = async (data) => {
+  const response = await axios.put(`${URL}/update-password/${data.id}`, data, {
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+
+  return response.data;
+};
+
 const authServices = {
   signup,
   login,
   userDetails,
+  updateUser,
+  updatePassword,
 };
 
 export default authServices;

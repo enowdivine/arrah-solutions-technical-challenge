@@ -12,6 +12,17 @@ export const globalStyles = StyleSheet.create({
     color: "red",
     fontWeight: "bold",
   },
+  successView: {
+    borderColor: "green",
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
+    backgroundColor: "#90EE90",
+  },
+  successText: {
+    color: "green",
+    fontWeight: "bold",
+  },
   passwordView: {
     display: "flex",
     flexDirection: "row",

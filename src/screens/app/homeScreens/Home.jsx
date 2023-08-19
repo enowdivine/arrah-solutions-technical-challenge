@@ -63,10 +63,10 @@ const Home = ({ navigation }) => {
     },
   ];
   const allsounds = useSelector((state) => state.sound.sounds);
-  const user = useSelector((state) => state.auth.user);
-  console.log(allsounds);
-  console.log(id);
-  console.log("user", user);
+  const userObj = useSelector((state) => state.auth.user);
+  const user = userObj?.user;
+  // console.log(allsounds);
+  // console.log("user id", id);
 
   useEffect(() => {
     dispatch(sounds());
@@ -76,7 +76,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.homeTop}>
-        <Text style={styles.greetings}>Hello Enow! </Text>
+        <Text style={styles.greetings}>Hello {user && user.firstName}! </Text>
         <Text style={styles.startWithText}>Start with one of these</Text>
       </View>
       <View style={styles.soundList}>

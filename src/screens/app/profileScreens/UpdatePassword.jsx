@@ -9,16 +9,44 @@ import {
 } from "react-native";
 import theme from "../../../../theme";
 import ModalSheet from "../../../components/ModalSheet";
+import Success from "../../../components/Success";
+import Error from "../../../components/Error";
+import { useDispatch } from "react-redux";
+import { updatePassword } from "../../../redux/reducers/authReducer";
 
-const UpdatePassword = ({ showUpdatePasswordModal, onCloseCancel }) => {
+const UpdatePassword = ({ showUpdatePasswordModal, onCloseCancel, user }) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const updataPasswordHandler = () => {
+    const data = {
+      id: user?._id,
+      currentPassword,
+      newPassword,
+    };
+    dispatch(updatePassword(data), setLoading(true))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setSuccess("password updated");
+          setLoading(false);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setError("Update Failed");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+      });
+  };
 
   return (
-    <ModalSheet
-      //   animationType="slide"
-      show={showUpdatePasswordModal}
-      onClose={onCloseCancel}
-    >
+    <ModalSheet show={showUpdatePasswordModal} onClose={onCloseCancel}>
       <View style={styles.modalContent}>
         <View style={styles.content}>
           <View style={styles.cancelDetails}>
@@ -28,32 +56,33 @@ const UpdatePassword = ({ showUpdatePasswordModal, onCloseCancel }) => {
                 <TextInput
                   style={styles.textInput}
                   placeholder="Current Password"
+                  onChangeText={(value) => setCurrentPassword(value)}
                 />
               </View>
               <View style={styles.textInputView}>
                 <TextInput
                   style={styles.textInput}
                   placeholder="New Password"
+                  onChangeText={(value) => setNewPassword(value)}
                 />
               </View>
             </View>
           </View>
           {loading ? (
-            <TouchableOpacity
-              style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
-            >
+            <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
               <ActivityIndicator color={theme.mainColor} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
+              onPress={updataPasswordHandler}
             >
               <Text style={styles.cancelReservationBtn}>Update Now</Text>
             </TouchableOpacity>
           )}
         </View>
+        {error === null ? "" : <Error error={error} />}
+        {success === null ? "" : <Success message={success} />}
       </View>
     </ModalSheet>
   );
