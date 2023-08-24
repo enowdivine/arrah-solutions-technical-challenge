@@ -97,6 +97,22 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const planSubscription = createAsyncThunk(
+  "authentication/planSubscription",
+  async (data, thunkAPI) => {
+    try {
+      return await authServices.planSubscription(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "authentication",
   initialState,

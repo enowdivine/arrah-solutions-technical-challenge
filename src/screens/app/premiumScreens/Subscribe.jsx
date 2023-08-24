@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,10 +8,93 @@ import {
   ActivityIndicator,
 } from "react-native";
 import theme from "../../../../theme";
+import config from "../../../../project.config";
 import ModalSheet from "../../../components/ModalSheet";
+// payment import
+import { useDispatch } from "react-redux";
+import { planSubscription } from "../../../redux/reducers/authReducer";
+import { campayPayment } from "../../../redux/reducers/campay";
+import Error from "../../../components/Error";
+import Success from "../../../components/Success";
+import { io } from "socket.io-client";
 
-const Subscribe = ({ showSubscribeModal, onCloseCancel }) => {
+const Subscribe = ({
+  showSubscribeModal,
+  onCloseCancel,
+  subscribeData,
+  user,
+}) => {
   const [loading, setLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState(null);
+  const [succMsg, setSuccMsg] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const dispatch = useDispatch();
+
+  const socket = io(config.ENDPOINT, {
+    autoConnect: false,
+  });
+
+  const handleSubscribe = () => {
+    if (phoneNumber === "") {
+      setErrMsg("phone number is required");
+      return;
+    }
+    try {
+      socket.connect();
+      socket.emit("join", "room");
+
+      //adding number of days for subscription
+      const numberOfDays = subscribeData.duration * 30;
+      const currentDate = new Date();
+      const newDate = currentDate.setDate(currentDate.getDate() + numberOfDays);
+
+      const data = {
+        // amount: subscribeData.price,
+        amount: 2,
+        from: phoneNumber,
+      };
+      const userData = {
+        id: user?._id,
+        category: subscribeData.category,
+        price: subscribeData.price,
+        startDate: currentDate,
+        endDate: newDate,
+      };
+      dispatch(campayPayment(data), setLoading(true)).then(() => {
+        socket
+          .on("status", (status) => {
+            if (status.status === "SUCCESSFUL") {
+              setSuccMsg(`Processing payment, please wait.... `);
+              console.log(userData);
+              dispatch(planSubscription(userData)).then((res) => {
+                console.log(res);
+                if (res.meta.requestStatus === "fulfilled") {
+                  setSuccMsg("Subscription sucessful");
+                  setPhoneNumber("");
+                  setLoading(false);
+                }
+                if (res.meta.requestStatus === "rejected") {
+                  setErrMsg(
+                    "Failed to process subscription, please contact support"
+                  );
+                  setLoading(false);
+                }
+              });
+            }
+            if (status.status === "FAILED") {
+              setErrMsg("Transaction incomplete");
+              setLoading(false);
+            }
+          })
+          .then(() => {
+            socket.disconnect();
+          });
+      });
+    } catch (error) {
+      setLoading(false);
+      return console.error("catch error", error);
+    }
+  };
 
   return (
     <ModalSheet
@@ -22,6 +105,9 @@ const Subscribe = ({ showSubscribeModal, onCloseCancel }) => {
       <View style={styles.modalContent}>
         <View style={styles.content}>
           <View style={styles.cancelDetails}>
+            <Text>
+              Subscribe to {subscribeData && subscribeData.category} plan
+            </Text>
             <Text style={styles.cancelHeader}>Enter phone number</Text>
             <View style={styles.form}>
               <View style={styles.textInputView}>
@@ -29,21 +115,21 @@ const Subscribe = ({ showSubscribeModal, onCloseCancel }) => {
                   style={styles.textInput}
                   placeholder="Phone number"
                   keyboardType="numeric"
+                  onChangeText={(value) => setPhoneNumber(value)}
                 />
               </View>
             </View>
           </View>
+          {errMsg === null ? "" : <Error error={errMsg} />}
+          {succMsg === null ? "" : <Success message={succMsg} />}
           {loading ? (
-            <TouchableOpacity
-              style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
-            >
+            <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
               <ActivityIndicator color={theme.mainColor} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={styles.cancelReservationBtnOpacity}
-              onPress={() => setLoading(!loading)}
+              onPress={handleSubscribe}
             >
               <Text style={styles.cancelReservationBtn}>Subscribe</Text>
             </TouchableOpacity>

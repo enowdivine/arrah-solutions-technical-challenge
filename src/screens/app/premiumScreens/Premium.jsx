@@ -17,9 +17,12 @@ import { allPlans } from "../../../redux/reducers/premiumReducer";
 
 const Premium = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState([1, 2, 3, 4]);
   const [showModal, setShowModal] = useState(false);
   const [plans, setPlans] = useState([]);
+  const [subscribeData, setSubscribeData] = useState(null);
+
+  const userObj = useSelector((state) => state.auth.user);
+  const user = userObj?.user;
 
   useEffect(() => {
     dispatch(allPlans()).then((res) => {
@@ -42,7 +45,7 @@ const Premium = () => {
                 price={item.price}
                 duration={item.duration}
                 desc={item.desc}
-                subBtn={() => setShowModal(true)}
+                subBtn={() => (setSubscribeData(item), setShowModal(true))}
               />
             );
           }}
@@ -51,6 +54,8 @@ const Premium = () => {
       <Subscribe
         showSubscribeModal={showModal}
         onCloseCancel={() => setShowModal(false)}
+        subscribeData={subscribeData}
+        user={user}
       />
     </View>
   );

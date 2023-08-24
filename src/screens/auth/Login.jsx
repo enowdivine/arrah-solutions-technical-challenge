@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
         };
         dispatch(login(data), setLoading(true)).then((res) => {
           if (res.meta.requestStatus === "rejected") {
-            setError("Signup Failed");
+            setError(res.payload);
             setLoading(false);
           }
         });
