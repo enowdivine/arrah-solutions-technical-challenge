@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import theme from "../../../../theme";
 import {
   StyleSheet,
@@ -16,9 +16,11 @@ import { userDetails } from "../../../redux/reducers/authReducer";
 import userId from "../../../shared/userId";
 
 const Home = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const notificationListener = useRef();
+  const responseListener = useRef();
   const [refreshing, setRefreshing] = React.useState(false);
   const [allSounds, setSounds] = useState([]);
+  const dispatch = useDispatch();
   const id = userId();
 
   const userObj = useSelector((state) => state.auth.user);
@@ -35,12 +37,17 @@ const Home = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    registerForPushNotifications();
+    registerForPushNotifications(
+      id,
+      dispatch,
+      notificationListener,
+      responseListener
+    );
     dispatch(sounds()).then((res) => {
       setSounds(res.payload);
     });
     dispatch(userDetails(id));
-  }, [dispatch]);
+  }, [id, dispatch]);
 
   return (
     <View style={styles.container}>

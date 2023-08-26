@@ -25,7 +25,7 @@ const Premium = () => {
   return (
     <View style={styles.container}>
       {user.subscription.status === "active" ? (
-        <PremiumPlan />
+        <PremiumPlan user={user} />
       ) : (
         <View>
           <View style={styles.premiumTop}>

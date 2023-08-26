@@ -1,6 +1,7 @@
 // push notifications
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { saveToken } from "../redux/reducers/notification";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -42,14 +43,20 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
-const registerForPushNotifications = () => {
+const registerForPushNotifications = (
+  singleUserId,
+  dispatch,
+  notificationListener,
+  responseListener
+) => {
+  let notification = null;
+
   registerForPushNotificationsAsync().then((token) => {
-    const userId = userIdFuntion(authToken);
     let dataToken = {
-      userId: userId,
+      userId: singleUserId,
       token: token,
     };
-    saveToken(dataToken)
+    dispatch(saveToken(dataToken))
       .then((res) => {
         console.log(res);
       })
@@ -59,8 +66,8 @@ const registerForPushNotifications = () => {
   });
 
   notificationListener.current = Notifications.addNotificationReceivedListener(
-    (notification) => {
-      setNotification(notification);
+    (notificationResponse) => {
+      notification = notificationResponse;
     }
   );
 
@@ -68,7 +75,6 @@ const registerForPushNotifications = () => {
     Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
-
   return () => {
     Notifications.removeNotificationSubscription(notificationListener.current);
     Notifications.removeNotificationSubscription(responseListener.current);

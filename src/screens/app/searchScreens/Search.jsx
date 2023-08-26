@@ -16,8 +16,9 @@ import { userDetails } from "../../../redux/reducers/authReducer";
 import userId from "../../../shared/userId";
 
 const Search = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
   const [allSounds, setSounds] = useState([]);
+  const dispatch = useDispatch();
   const id = userId();
 
   const onRefreshFuntion = React.useCallback(() => {

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import theme from "../../../../theme";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { formatMoney } from "../../../helpers/others";
+import theme from "../../../../theme";
 import PlanAction from "./PlanAction";
 
-const PremiumPlan = () => {
+const PremiumPlan = ({ user }) => {
   const [planAction, setPlanAction] = useState(false);
 
   return (
@@ -20,20 +21,26 @@ const PremiumPlan = () => {
           style={styles.icon}
         />
         <View style={styles.yourPlanViews}>
-          <Text style={styles.yourPlanText}>premium</Text>
+          <Text style={styles.yourPlanText}>{user?.subscription.plan}</Text>
         </View>
         <View style={styles.yourPlanViews}>
-          <Text style={styles.yourPlanText}>10000 FCFA</Text>
+          <Text style={styles.yourPlanText}>
+            {formatMoney(user?.subscription.price)} FCFA
+          </Text>
         </View>
         <View style={styles.yourPlanViews}>
-          <Text style={styles.yourPlanText}>Expires on: 20-03-2024</Text>
+          <Text style={styles.yourPlanText}>
+            Expires on: {user?.subscription.endDate}
+          </Text>
         </View>
         <View style={styles.yourPlanViews}>
           <Text style={styles.yourPlanDesc}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-            deleniti assumenda explicabo commodi? Maiores voluptas quo itaque
-            nisi cum. Doloremque iure quasi quibusdam voluptatum inventore sequi
-            cum eveniet modi corrupti?
+            Thank you for subscriing to the digital cofffee{" "}
+            {user?.subscription.plan} plan. We are very excited to have you and
+            we are here to make you feel better. Keep in mind to continue
+            enjoying our exclusive melodies, you must subscribe to another plan
+            after the {user?.subscription.endDate}. We hope you have a great
+            time and looking forward to getting positive feedbacks from you.
           </Text>
         </View>
         <TouchableOpacity
@@ -83,16 +90,20 @@ const styles = StyleSheet.create({
   },
   yourPlanDesc: {
     textAlign: "center",
+    padding: 20,
+    fontSize: 17,
   },
   actionBtn: {
     marginTop: 40,
-    backgroundColor: theme.mainColor,
+    // backgroundColor: theme.mainColor,
     width: 120,
-    padding: 10,
+    padding: 15,
     borderRadius: 5,
+    borderColor: "red",
+    borderWidth: 2,
   },
   actionText: {
-    color: "white",
+    color: "red",
     textAlign: "center",
     fontWeight: "bold",
   },
