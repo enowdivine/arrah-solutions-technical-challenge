@@ -1,19 +1,6 @@
 import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import {
-  FontAwesome,
-  Entypo,
-  MaterialIcons,
-  FontAwesome5,
-  AntDesign,
-} from "@expo/vector-icons";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import theme from "../../../../theme";
 import DeleteAccount from "./DeleteAccount";
 import UpdateAccountDetails from "./UpdateAccountDetails";

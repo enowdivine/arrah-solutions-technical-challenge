@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import theme from "../../../../theme";
 import PlansCard from "../../../components/PlansCard";
 import Subscribe from "./Subscribe";
+import PremiumPlan from "./PremiumPlan";
 import { useDispatch, useSelector } from "react-redux";
 import { allPlans } from "../../../redux/reducers/premiumReducer";
 
@@ -32,31 +24,37 @@ const Premium = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.premiumTop}>
-        <Text style={styles.heading}>Premium Plans</Text>
-      </View>
-      <View style={styles.planList}>
-        <FlatList
-          data={plans}
-          renderItem={({ item }) => {
-            return (
-              <PlansCard
-                category={item.category}
-                price={item.price}
-                duration={item.duration}
-                desc={item.desc}
-                subBtn={() => (setSubscribeData(item), setShowModal(true))}
-              />
-            );
-          }}
-        />
-      </View>
-      <Subscribe
-        showSubscribeModal={showModal}
-        onCloseCancel={() => setShowModal(false)}
-        subscribeData={subscribeData}
-        user={user}
-      />
+      {user.subscription.status === "active" ? (
+        <PremiumPlan />
+      ) : (
+        <View>
+          <View style={styles.premiumTop}>
+            <Text style={styles.heading}>Premium Plans</Text>
+          </View>
+          <View style={styles.planList}>
+            <FlatList
+              data={plans}
+              renderItem={({ item }) => {
+                return (
+                  <PlansCard
+                    category={item.category}
+                    price={item.price}
+                    duration={item.duration}
+                    desc={item.desc}
+                    subBtn={() => (setSubscribeData(item), setShowModal(true))}
+                  />
+                );
+              }}
+            />
+          </View>
+          <Subscribe
+            showSubscribeModal={showModal}
+            onCloseCancel={() => setShowModal(false)}
+            subscribeData={subscribeData}
+            user={user}
+          />
+        </View>
+      )}
     </View>
   );
 };

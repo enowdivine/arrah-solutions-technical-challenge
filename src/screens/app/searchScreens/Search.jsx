@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
+  RefreshControl,
   StyleSheet,
   View,
   Text,
@@ -11,7 +10,7 @@ import {
 } from "react-native";
 import theme from "../../../../theme";
 import CoffeGridView from "../../../components/CoffeGridView";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { sounds } from "../../../redux/reducers/soundReducer";
 import { userDetails } from "../../../redux/reducers/authReducer";
 import userId from "../../../shared/userId";
@@ -20,6 +19,16 @@ const Search = ({ navigation }) => {
   const dispatch = useDispatch();
   const [allSounds, setSounds] = useState([]);
   const id = userId();
+
+  const onRefreshFuntion = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      dispatch(sounds()).then((res) => {
+        setSounds(res.payload);
+      });
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     dispatch(sounds()).then((res) => {
@@ -59,6 +68,12 @@ const Search = ({ navigation }) => {
           }}
           numColumns={2}
           keyExtractor={(item, index) => index.toString()}
+          refreshControl={
+            <RefreshControl
+              onRefresh={onRefreshFuntion}
+              refreshing={refreshing}
+            />
+          }
         />
       </View>
     </View>

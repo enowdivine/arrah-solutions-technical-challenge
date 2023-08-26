@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import theme from "../../../../theme";
 import {
-  ActivityIndicator,
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   FlatList,
+  RefreshControl,
 } from "react-native";
+import registerForPushNotifications from "../../../helpers/notification";
 import CoffeeListView from "../../../components/CoffeeListView";
 import { useDispatch, useSelector } from "react-redux";
 import { sounds } from "../../../redux/reducers/soundReducer";
@@ -16,13 +17,25 @@ import userId from "../../../shared/userId";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
   const [allSounds, setSounds] = useState([]);
   const id = userId();
 
   const userObj = useSelector((state) => state.auth.user);
   const user = userObj?.user;
 
+  const onRefreshFuntion = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      dispatch(sounds()).then((res) => {
+        setSounds(res.payload);
+      });
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   useEffect(() => {
+    registerForPushNotifications();
     dispatch(sounds()).then((res) => {
       setSounds(res.payload);
     });
@@ -57,6 +70,12 @@ const Home = ({ navigation }) => {
               </TouchableOpacity>
             );
           }}
+          refreshControl={
+            <RefreshControl
+              onRefresh={onRefreshFuntion}
+              refreshing={refreshing}
+            />
+          }
         />
       </View>
     </View>

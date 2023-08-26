@@ -1,13 +1,6 @@
 import React from "react";
 import theme from "../../../theme";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
 const Welcome = ({ navigation }) => {
   return (
@@ -15,7 +8,7 @@ const Welcome = ({ navigation }) => {
       <View style={styles.wrapper}>
         <View style={styles.imageView}>
           <Image
-            source={require("../../../assets/logo/digital-coffee1.png")}
+            source={require("../../../assets/logo/digitalcoffeebrand.png")}
             style={styles.image}
           />
         </View>
@@ -54,10 +47,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   image: {
     width: 400,
-    height: 110,
+    height: 120,
   },
   text: {
     textAlign: "center",
