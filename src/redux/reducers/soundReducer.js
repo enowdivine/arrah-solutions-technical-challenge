@@ -17,6 +17,21 @@ export const sounds = createAsyncThunk("sound/sounds", async (thunkAPI) => {
   }
 });
 
+export const findSounds = createAsyncThunk(
+  "sound/findSounds",
+  async (data, thunkAPI) => {
+    try {
+      return await soundServices.findSounds(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const soundSlice = createSlice({
   name: "sound",
   initialState,

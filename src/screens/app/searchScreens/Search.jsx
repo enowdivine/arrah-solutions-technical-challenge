@@ -11,7 +11,7 @@ import {
 import theme from "../../../../theme";
 import CoffeGridView from "../../../components/CoffeGridView";
 import { useDispatch } from "react-redux";
-import { sounds } from "../../../redux/reducers/soundReducer";
+import { sounds, findSounds } from "../../../redux/reducers/soundReducer";
 import { userDetails } from "../../../redux/reducers/authReducer";
 import userId from "../../../shared/userId";
 
@@ -38,11 +38,22 @@ const Search = ({ navigation }) => {
     dispatch(userDetails(id));
   }, []);
 
+  const handleChange = (e) => {
+    let text = e.target.value;
+    dispatch(findSounds(text)).then((res) => {
+      setSounds(res.payload);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchTop}>
         <Text style={styles.title}>Discover More Sounds</Text>
-        <TextInput placeholder={`Search...`} style={styles.searchInput} />
+        <TextInput
+          placeholder={`Search...`}
+          style={styles.searchInput}
+          onChangeText={handleChange}
+        />
       </View>
       <View style={styles.soundList}>
         <FlatList

@@ -8,8 +8,14 @@ const sounds = async () => {
   return response.data;
 };
 
+const findSounds = async (data) => {
+  const response = await axios.get(`${URL}/search/${data}`);
+  return response.data;
+};
+
 const authServices = {
   sounds,
+  findSounds,
 };
 
 export default authServices;
