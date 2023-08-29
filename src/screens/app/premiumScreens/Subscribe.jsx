@@ -43,10 +43,13 @@ const Subscribe = ({
       socket.connect();
       socket.emit("join", "room");
 
-      //adding number of days for subscription
+      // adding number of days for subscription
       const numberOfDays = subscribeData.duration * 30;
       const currentDate = new Date();
-      const newDate = currentDate.setDate(currentDate.getDate() + numberOfDays);
+      const startDataMilli = currentDate.setDate(currentDate.getDate());
+      const endDateMilli = currentDate.setDate(
+        currentDate.getDate() + numberOfDays
+      );
 
       const data = {
         // amount: subscribeData.price,
@@ -57,8 +60,8 @@ const Subscribe = ({
         id: user?._id,
         category: subscribeData.category,
         price: subscribeData.price,
-        startDate: currentDate,
-        endDate: newDate,
+        startDate: startDataMilli,
+        endDate: endDateMilli,
       };
       dispatch(campayPayment(data), setLoading(true)).then(() => {
         socket

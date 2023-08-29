@@ -23,11 +23,13 @@ const Premium = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {user.subscription.status === "active" ? (
-        <PremiumPlan user={user} />
+    <>
+      {user?.subscription.status === "active" ? (
+        <View style={styles.container}>
+          <PremiumPlan user={user} />
+        </View>
       ) : (
-        <View>
+        <View style={styles.container}>
           <View style={styles.premiumTop}>
             <Text style={styles.heading}>Premium Plans</Text>
           </View>
@@ -55,7 +57,7 @@ const Premium = () => {
           />
         </View>
       )}
-    </View>
+    </>
   );
 };
 
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
   premiumTop: {
     width: "100%",

@@ -15,17 +15,19 @@ const PremiumPlan = ({ user }) => {
       </View>
       <View style={styles.yourPlan}>
         <FontAwesome5
-          name="rocket"
-          color={theme.mainColor}
-          size={53}
+          name="check-circle"
+          color={"green"}
+          size={120}
           style={styles.icon}
         />
         <View style={styles.yourPlanViews}>
-          <Text style={styles.yourPlanText}>{user?.subscription.plan}</Text>
+          <Text style={styles.yourPlanText}>
+            Plan: {user?.subscription.plan}
+          </Text>
         </View>
         <View style={styles.yourPlanViews}>
           <Text style={styles.yourPlanText}>
-            {formatMoney(user?.subscription.price)} FCFA
+            Price: {formatMoney(user?.subscription.price)} FCFA
           </Text>
         </View>
         <View style={styles.yourPlanViews}>
@@ -43,12 +45,12 @@ const PremiumPlan = ({ user }) => {
             time and looking forward to getting positive feedbacks from you.
           </Text>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.actionBtn}
           onPress={() => setPlanAction(true)}
         >
           <Text style={styles.actionText}>Actions</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <PlanAction
           showActionModal={planAction}
           onCloseCancel={() => setPlanAction(false)}
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   yourPlanViews: {
-    marginTop: 10,
+    marginTop: 20,
   },
   yourPlanText: {
     fontWeight: "bold",

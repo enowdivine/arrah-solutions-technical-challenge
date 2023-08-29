@@ -42,7 +42,7 @@ const Signup = ({ navigation }) => {
             setLoading(false);
           }
           if (res.meta.requestStatus === "rejected") {
-            setError("Signup Failed");
+            setError(res.payload);
             setLoading(false);
           }
         })
