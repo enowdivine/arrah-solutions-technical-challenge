@@ -68,9 +68,7 @@ const Subscribe = ({
           .on("status", (status) => {
             if (status.status === "SUCCESSFUL") {
               setSuccMsg(`Processing payment, please wait.... `);
-              console.log(userData);
               dispatch(planSubscription(userData)).then((res) => {
-                console.log(res);
                 if (res.meta.requestStatus === "fulfilled") {
                   setSuccMsg("Subscription sucessful");
                   setPhoneNumber("");

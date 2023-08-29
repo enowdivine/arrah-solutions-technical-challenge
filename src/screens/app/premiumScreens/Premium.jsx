@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, RefreshControl } from "react-native";
 import theme from "../../../../theme";
 import PlansCard from "../../../components/PlansCard";
 import Subscribe from "./Subscribe";
@@ -9,12 +9,23 @@ import { allPlans } from "../../../redux/reducers/premiumReducer";
 
 const Premium = () => {
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
   const [showModal, setShowModal] = useState(false);
   const [plans, setPlans] = useState([]);
   const [subscribeData, setSubscribeData] = useState(null);
 
   const userObj = useSelector((state) => state.auth.user);
   const user = userObj?.user;
+
+  const onRefreshFuntion = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      dispatch(allPlans()).then((res) => {
+        setPlans(res.payload);
+      });
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     dispatch(allPlans()).then((res) => {
@@ -47,6 +58,12 @@ const Premium = () => {
                   />
                 );
               }}
+              refreshControl={
+                <RefreshControl
+                  onRefresh={onRefreshFuntion}
+                  refreshing={refreshing}
+                />
+              }
             />
           </View>
           <Subscribe
