@@ -38,9 +38,8 @@ const Search = ({ navigation }) => {
     dispatch(userDetails(id));
   }, []);
 
-  const handleChange = (e) => {
-    let text = e.target.value;
-    dispatch(findSounds(text)).then((res) => {
+  const handleChange = (value) => {
+    dispatch(findSounds(value)).then((res) => {
       setSounds(res.payload);
     });
   };
@@ -52,7 +51,7 @@ const Search = ({ navigation }) => {
         <TextInput
           placeholder={`Search...`}
           style={styles.searchInput}
-          onChangeText={handleChange}
+          onChangeText={(value) => handleChange(value)}
         />
       </View>
       <View style={styles.soundList}>
@@ -70,8 +69,8 @@ const Search = ({ navigation }) => {
               >
                 <CoffeGridView
                   title={item.title}
-                  coverImage={item.coverImage.img}
-                  track={item.filePath.snd}
+                  coverImage={item.coverImage?.img}
+                  track={item.filePath?.snd}
                   category={item.category}
                   date={item.createdAt}
                 />
