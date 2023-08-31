@@ -47,6 +47,26 @@ const updatePassword = async (data) => {
   return response.data;
 };
 
+const forgotPassword = async (data) => {
+  const response = await axios.post(`${URL}/forgot-password`, data, {
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+
+  return response.data;
+};
+
+const resetPassword = async (data) => {
+  const response = await axios.put(`${URL}/reset-password`, data, {
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+
+  return response.data;
+};
+
 const planSubscription = async (data) => {
   const response = await axios.put(`${URL}/subscribe/${data.id}`, data, {
     headers: {
@@ -57,12 +77,25 @@ const planSubscription = async (data) => {
   return response.data;
 };
 
+const deleteAccount = async (data) => {
+  const response = await axios.delete(`${URL}/delete-user/${data.id}`, data, {
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+
+  return response.data;
+};
+
 const authServices = {
-  signup,
   login,
-  userDetails,
+  signup,
   updateUser,
+  userDetails,
+  deleteAccount,
+  resetPassword,
   updatePassword,
+  forgotPassword,
   planSubscription,
 };
 

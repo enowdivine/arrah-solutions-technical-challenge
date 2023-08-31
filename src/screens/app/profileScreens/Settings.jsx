@@ -43,6 +43,7 @@ const Settings = ({ navigation }) => {
       <DeleteAccount
         showDeleteModal={deleteAccount}
         onCloseCancel={() => setDeleteAccount(false)}
+        user={user}
       />
       <UpdateAccountDetails
         showUpdateModal={userDetails}

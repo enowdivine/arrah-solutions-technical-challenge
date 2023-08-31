@@ -16,6 +16,7 @@ import Welcome from "../screens/auth/Welcome";
 import Login from "../screens/auth/Login";
 import Signup from "../screens/auth/Signup";
 import ForgotPassword from "../screens/auth/ForgotPassword";
+import ResetPassword from "../screens/auth/ResetPassword";
 
 const AuthStackScreen = createStackNavigator();
 
@@ -134,6 +135,13 @@ const AuthStack = () => {
         }}
         name="ForgotPassword"
         component={ForgotPassword}
+      ></AuthStackScreen.Screen>
+      <AuthStackScreen.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ResetPassword"
+        component={ResetPassword}
       ></AuthStackScreen.Screen>
     </AuthStackScreen.Navigator>
   );

@@ -37,11 +37,26 @@ export const login = createAsyncThunk(
   }
 );
 
+export const forgotPassword = createAsyncThunk(
+  "authentication/forgotPassword",
+  async (data, thunkAPI) => {
+    try {
+      return authServices.forgotPassword(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const resetPassword = createAsyncThunk(
   "authentication/resetPassword",
   async (data, thunkAPI) => {
     try {
-      return data;
+      return authServices.resetPassword(data);
     } catch (error) {
       const message =
         (error.message && error.response.data && error.response.data.message) ||
@@ -113,6 +128,22 @@ export const planSubscription = createAsyncThunk(
   }
 );
 
+export const deleteAccount = createAsyncThunk(
+  "authentication/deleteAccount",
+  async (data, thunkAPI) => {
+    try {
+      return await authServices.deleteAccount(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "authentication",
   initialState,
@@ -132,6 +163,9 @@ export const authSlice = createSlice({
       })
       .addCase(userDetails.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(deleteAccount.fulfilled, (state, action) => {
+        state.userToken = "";
       });
   },
 });

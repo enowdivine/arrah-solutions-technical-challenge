@@ -11,30 +11,31 @@ import {
 } from "react-native";
 import theme from "../../../theme";
 import { useDispatch } from "react-redux";
-import { forgotPassword } from "../../redux/reducers/authReducer";
+import { resetPassword } from "../../redux/reducers/authReducer";
 import Error from "../../components/Error";
 
-const ForgotPassword = ({ navigation }) => {
+const ResetPassword = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const dispatch = useDispatch();
 
-  const forgotPasswordHandler = () => {
-    if (email && phoneNumber) {
+  const resetPasswordHandler = () => {
+    if (phoneNumber && phoneNumber) {
       const data = {
-        email,
         phoneNumber,
+        newPassword,
       };
-      dispatch(forgotPassword(data), setLoading(true))
+      dispatch(resetPassword(data), setLoading(true))
         .then((res) => {
+          console.log(res);
           if (res.meta.requestStatus === "fulfilled") {
             setLoading(false);
-            navigation.navigate("ResetPassword");
+            navigation.navigate("Login");
           }
           if (res.meta.requestStatus === "rejected") {
-            setError("Failed, check phone number and email.");
+            setError("update password failed");
             setLoading(false);
           }
         })
@@ -43,7 +44,7 @@ const ForgotPassword = ({ navigation }) => {
           setLoading(false);
         });
     } else {
-      setError("Email is required");
+      setError("all fields are required");
       setLoading(false);
     }
   };
@@ -56,22 +57,22 @@ const ForgotPassword = ({ navigation }) => {
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <View style={styles.wrapper}>
         <View style={styles.heading}>
-          <Text style={styles.headingText}>Forgot Coffee Password?</Text>
+          <Text style={styles.headingText}>Reset Coffee Password?</Text>
         </View>
         <View style={styles.loginForm}>
-          <View style={styles.textInputView}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter email"
-              onChangeText={(value) => setEmail(value)}
-            />
-          </View>
           <View style={styles.textInputView}>
             <TextInput
               style={styles.textInput}
               keyboardType="numeric"
               placeholder="Enter phone number"
               onChangeText={(value) => setPhoneNumber(value)}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter new password"
+              onChangeText={(value) => setNewPassword(value)}
             />
           </View>
           <View>
@@ -82,9 +83,9 @@ const ForgotPassword = ({ navigation }) => {
             ) : (
               <TouchableOpacity
                 style={styles.loginBtn}
-                onPress={forgotPasswordHandler}
+                onPress={resetPasswordHandler}
               >
-                <Text style={styles.loginText}>Validate</Text>
+                <Text style={styles.loginText}>Reset Password</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -159,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPassword;
+export default ResetPassword;

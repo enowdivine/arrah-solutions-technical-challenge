@@ -9,6 +9,7 @@ import {
   RefreshControl,
 } from "react-native";
 import registerForPushNotifications from "../../../helpers/notification";
+import reactToUpdates from "../../../helpers/appUpdates";
 import CoffeeListView from "../../../components/CoffeeListView";
 import { useDispatch, useSelector } from "react-redux";
 import { sounds } from "../../../redux/reducers/soundReducer";
@@ -44,9 +45,11 @@ const Home = ({ navigation }) => {
       responseListener
     );
     dispatch(sounds()).then((res) => {
-      setSounds(res.payload);
+      const filtered = res.payload.filter((sound) => sound.premium === "free");
+      setSounds(filtered);
     });
     dispatch(userDetails(id));
+    reactToUpdates();
   }, [id, dispatch]);
 
   return (

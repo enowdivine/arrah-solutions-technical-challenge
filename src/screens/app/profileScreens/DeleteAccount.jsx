@@ -1,15 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import theme from "../../../../theme";
 import ModalSheet from "../../../components/ModalSheet";
+import { useDispatch } from "react-redux";
+import { deleteAccount } from "../../../redux/reducers/authReducer";
+import Success from "../../../components/Success";
+import Error from "../../../components/Error";
 
-const DeleteAccount = ({ showDeleteModal, onCloseCancel }) => {
+const DeleteAccount = ({ showDeleteModal, onCloseCancel, user }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const dispatch = useDispatch();
+
+  const deleteHandler = () => {
+    setLoading(true);
+    const data = {
+      id: user?._id,
+    };
+    dispatch(deleteAccount(data), setLoading(true))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setLoading(false);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setError("Reuest Failed");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+      });
+  };
+
   return (
     <ModalSheet
       // animationType="slide"
@@ -28,10 +59,21 @@ const DeleteAccount = ({ showDeleteModal, onCloseCancel }) => {
               refunds at all.
             </Text>
           </View>
-          <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
-            <Text style={styles.cancelReservationBtn}>Delete Now</Text>
-          </TouchableOpacity>
+          {loading ? (
+            <TouchableOpacity style={styles.cancelReservationBtnOpacity}>
+              <ActivityIndicator color={theme.mainColor} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.cancelReservationBtnOpacity}
+              onPress={deleteHandler}
+            >
+              <Text style={styles.cancelReservationBtn}>Delete Now</Text>
+            </TouchableOpacity>
+          )}
         </View>
+        {error === null ? "" : <Error error={error} />}
+        {success === null ? "" : <Success message={success} />}
       </View>
     </ModalSheet>
   );
