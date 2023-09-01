@@ -55,7 +55,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.homeTop}>
-        <Text style={styles.greetings}>Hello {user && user.firstName}! </Text>
+        <Text style={styles.greetings}>Hello {user && user.firstName}!</Text>
         <Text style={styles.startWithText}>Start with one of these</Text>
       </View>
       <View style={styles.soundList}>

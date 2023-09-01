@@ -29,7 +29,6 @@ const ResetPassword = ({ navigation }) => {
       };
       dispatch(resetPassword(data), setLoading(true))
         .then((res) => {
-          console.log(res);
           if (res.meta.requestStatus === "fulfilled") {
             setLoading(false);
             navigation.navigate("Login");
