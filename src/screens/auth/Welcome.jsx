@@ -14,10 +14,10 @@ const Welcome = ({ navigation }) => {
         </View>
         <View>
           <Text style={styles.text}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
-            consequatur impedit unde, nulla quos sunt quisquam debitis
-            consequuntur accusantium optio voluptates eligendi ut itaque, facere
-            mollitia, cum eaque inventore tempore!
+            Welcome to our Digital Coffee, where you can find ultimate
+            relaxation and tranquility at your fingertips. Unwind, rejuvenate,
+            and experience a state of bliss like never before. Let our app be
+            your sanctuary in the chaos of everyday life.
           </Text>
         </View>
         <View style={styles.authBtns}>
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 20,
     marginTop: 40,
+    paddingHorizontal: 10,
   },
   authBtns: {
     display: "flex",
