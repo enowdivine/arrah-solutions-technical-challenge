@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import theme from "../../../../theme";
 import CoffeGridView from "../../../components/CoffeGridView";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sounds, findSounds } from "../../../redux/reducers/soundReducer";
 import { userDetails } from "../../../redux/reducers/authReducer";
 import userId from "../../../shared/userId";
@@ -18,6 +18,8 @@ import userId from "../../../shared/userId";
 const Search = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [allSounds, setSounds] = useState([]);
+  // state object for checking plans
+  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const id = userId();
 
@@ -35,13 +37,34 @@ const Search = ({ navigation }) => {
     dispatch(sounds()).then((res) => {
       setSounds(res.payload);
     });
-    dispatch(userDetails(id));
-  }, []);
+    dispatch(userDetails(id)).then((res) => {
+      setUser(res.payload.user);
+    });
+  }, [id]);
 
   const handleChange = (value) => {
     dispatch(findSounds(value)).then((res) => {
       setSounds(res.payload);
     });
+  };
+
+  const playAudio = (item) => {
+    if (user && item) {
+      if (item.premium === "free") {
+        navigation.navigate("AudioPlayer", {
+          item,
+        });
+      } else {
+        if (user?.subscription.plan === "free") {
+          return alert("Subscrbe to plan to access this sound");
+        }
+        if (user?.subscription.plan !== "free") {
+          navigation.navigate("AudioPlayer", {
+            item,
+          });
+        }
+      }
+    }
   };
 
   return (
@@ -60,13 +83,7 @@ const Search = ({ navigation }) => {
           data={allSounds}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("AudioPlayer", {
-                    item,
-                  })
-                }
-              >
+              <TouchableOpacity onPress={() => playAudio(item)}>
                 <CoffeGridView
                   title={item.title}
                   coverImage={item.coverImage?.img}
