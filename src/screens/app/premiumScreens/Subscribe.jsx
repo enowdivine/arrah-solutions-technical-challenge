@@ -52,8 +52,8 @@ const Subscribe = ({
       );
 
       const data = {
-        // amount: subscribeData.price,
-        amount: 2,
+        // amount: 2,
+        amount: subscribeData.price,
         from: phoneNumber,
       };
       const userData = {
