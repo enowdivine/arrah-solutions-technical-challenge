@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./styles/Header.css";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -6,11 +6,51 @@ import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaQuestionCircle } from "react-icons/fa";
+import { RegistrantioContext } from "../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
 };
 const BusinessInfo = (props) => {
+  const {
+    brandName,
+    setBrandName,
+    brandType,
+    setBrandType,
+    streetAddress,
+    setStreetAddress,
+    city,
+    setCity,
+    zipCode,
+    setZipCode,
+    taxID,
+    setTaxID,
+    documentOne,
+    setDocumentOne,
+    documentTwo,
+    setDocumentTwo,
+    pdfDocument,
+    setPdfDocument,
+  } = useContext(RegistrantioContext);
+
+  const handleNext = () => {
+    if (
+      brandName &&
+      brandType &&
+      streetAddress &&
+      city &&
+      zipCode &&
+      taxID &&
+      documentOne &&
+      documentTwo &&
+      pdfDocument
+    ) {
+      props.nextStep();
+    } else {
+      alert("All fields are required");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="shadow-lg rounded">
@@ -54,6 +94,7 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Input Your Business name"
+                    onChange={(e) => setBrandName(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -70,7 +111,10 @@ const BusinessInfo = (props) => {
                       <FaQuestionCircle />
                     </span>
                   </Form.Label>
-                  <Form.Select aria-label="Default select example">
+                  <Form.Select
+                    aria-label="Default select example"
+                    onChange={(e) => setBrandType(e.target.value)}
+                  >
                     <option>Select Type of Your Brand</option>
                     <option value="Fashion">Fashion</option>
                     <option value="Electronics">Electronics</option>
@@ -86,13 +130,18 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Input Your Street Address"
+                    onChange={(e) => setStreetAddress(e.target.value)}
                   />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>City*</Form.Label>
-                  <Form.Control type="text" placeholder="Input City" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Input City"
+                    onChange={(e) => setCity(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -100,7 +149,11 @@ const BusinessInfo = (props) => {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Zip Code*</Form.Label>
-                  <Form.Control type="number" placeholder="Input Zip Code" />
+                  <Form.Control
+                    type="number"
+                    placeholder="Input Zip Code"
+                    onChange={(e) => setZipCode(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
               <Col>
@@ -109,6 +162,7 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="password"
                     placeholder="Input Tax ID Number"
+                    onChange={(e) => setTaxID(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -126,6 +180,7 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="file"
                     placeholder="Electronically sign the agreement(s)"
+                    onChange={(e) => setDocumentOne(e.target.files[0])}
                   />
                 </Form.Group>
               </Col>
@@ -141,6 +196,7 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="file"
                     placeholder="Electronically sign the agreement(s)"
+                    onChange={(e) => setDocumentTwo(e.target.files[0])}
                   />
                 </Form.Group>
               </Col>
@@ -159,6 +215,7 @@ const BusinessInfo = (props) => {
                   <Form.Control
                     type="file"
                     placeholder="Electronically sign the agreement(s)"
+                    onChange={(e) => setPdfDocument(e.target.files[0])}
                   />
                 </Form.Group>
               </Col>
@@ -189,7 +246,7 @@ const BusinessInfo = (props) => {
             </button>
           </p>
           <p>
-            <button onClick={props.nextStep} className="btn btn-primary px-4">
+            <button onClick={handleNext} className="btn btn-primary px-4">
               Next Step
               <FiChevronRight />
             </button>

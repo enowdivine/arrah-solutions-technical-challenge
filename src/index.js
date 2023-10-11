@@ -5,11 +5,14 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import RegistrantioContext from "./context/registration";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RegistrantioContext>
+      <App />
+    </RegistrantioContext>
   </React.StrictMode>
 );
 

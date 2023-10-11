@@ -1,15 +1,51 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./styles/Header.css";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { RegistrantioContext } from "../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
 };
 const ProfileInfo = (props) => {
+  const [createPassword, setCreatePassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    email,
+    setEmail,
+    phoneNumber,
+    setPhoneNumber,
+    setPassword,
+  } = useContext(RegistrantioContext);
+
+  const handleNext = () => {
+    if (
+      firstName &&
+      lastName &&
+      email &&
+      phoneNumber &&
+      createPassword &&
+      confirmPassword
+    ) {
+      if (createPassword !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      } else {
+        setPassword(createPassword);
+        props.nextStep();
+      }
+    } else {
+      alert("All fields are required");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="shadow-lg rounded">
@@ -41,6 +77,7 @@ const ProfileInfo = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Input Your First name"
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -50,6 +87,7 @@ const ProfileInfo = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Input Your Last name"
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -58,7 +96,11 @@ const ProfileInfo = (props) => {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Email*</Form.Label>
-                  <Form.Control type="email" placeholder="Input Your Email" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Input Your Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
               <Col>
@@ -67,6 +109,7 @@ const ProfileInfo = (props) => {
                   <Form.Control
                     type="number"
                     placeholder="Input Your phone Number"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -75,7 +118,11 @@ const ProfileInfo = (props) => {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Password*</Form.Label>
-                  <Form.Control type="password" placeholder="Create Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Create Password"
+                    onChange={(e) => setCreatePassword(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
               <Col>
@@ -84,6 +131,7 @@ const ProfileInfo = (props) => {
                   <Form.Control
                     type="password"
                     placeholder="Confirm Your Password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -100,7 +148,7 @@ const ProfileInfo = (props) => {
         </div>
         <div className="d-flex">
           <p>
-            <button onClick={props.nextStep} className="btn btn-primary px-4">
+            <button onClick={handleNext} className="btn btn-primary px-4">
               Next Step
               <FiChevronRight />
             </button>

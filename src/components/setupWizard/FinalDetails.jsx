@@ -1,15 +1,85 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./styles/Header.css";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiChevronLeft } from "react-icons/fi";
+import { RegistrantioContext } from "../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
 };
 const FinalDetails = (props) => {
+  const navigate = useNavigate();
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    password,
+    brandName,
+    brandType,
+    streetAddress,
+    city,
+    zipCode,
+    taxID,
+    documentOne,
+    documentTwo,
+    pdfDocument,
+    //
+    setFirstName,
+    setLastName,
+    setEmail,
+    setPhoneNumber,
+    setPassword,
+    setBrandName,
+    setBrandType,
+    setStreetAddress,
+    setCity,
+    setZipCode,
+    setTaxID,
+    setDocumentOne,
+    setDocumentTwo,
+    setPdfDocument,
+  } = useContext(RegistrantioContext);
+
+  const submitHandler = () => {
+    console.log({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      brandName,
+      brandType,
+      streetAddress,
+      city,
+      zipCode,
+      taxID,
+      documentOne,
+      documentTwo,
+      pdfDocument,
+    });
+    alert("Details Submmited");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhoneNumber("");
+    setPassword("");
+    setBrandName("");
+    setBrandType("");
+    setStreetAddress("");
+    setCity("");
+    setZipCode("");
+    setTaxID("");
+    setDocumentOne("");
+    setDocumentTwo("");
+    setPdfDocument("");
+    // Navigate to login
+    navigate("/");
+  };
+
   return (
     <div className="container mt-4">
       <div className="shadow-lg rounded">
@@ -59,68 +129,68 @@ const FinalDetails = (props) => {
             </Row>
             <Row>
               <Col>First Name</Col>
-              <Col>Test</Col>
+              <Col>{firstName}</Col>
             </Row>
             <Row>
               <Col>Last Name</Col>
-              <Col>Test</Col>
+              <Col>{lastName}</Col>
             </Row>
             <Row>
               <Col>Email</Col>
-              <Col>Test</Col>
+              <Col>{email}</Col>
             </Row>
             <Row>
               <Col>Phone Number</Col>
-              <Col>Test</Col>
+              <Col>{phoneNumber}</Col>
             </Row>
             <Row>
               <Col>Password</Col>
-              <Col>Test</Col>
+              <Col>{password}</Col>
             </Row>
             <Row className="mt-3">
               <p className="text-primary">GENERAL INFORMATION</p>
             </Row>
             <Row>
               <Col>Brand Name</Col>
-              <Col>Test</Col>
+              <Col>{brandName}</Col>
             </Row>
             <Row>
               <Col>Brand type</Col>
-              <Col>Test</Col>
+              <Col>{brandType}</Col>
             </Row>
             <Row>
               <Col>Street Address</Col>
-              <Col>Test</Col>
+              <Col>{streetAddress}</Col>
             </Row>
             <Row>
               <Col>City</Col>
-              <Col>Test</Col>
+              <Col>{city}</Col>
             </Row>
             <Row>
               <Col>Zip Code</Col>
-              <Col>Test</Col>
+              <Col>{zipCode}</Col>
             </Row>
             <Row>
               <Col>Tax ID Number</Col>
-              <Col>Test</Col>
+              <Col>{taxID}</Col>
             </Row>
             <Row className="mt-3">
               <p className="text-primary">DOCUMENTS</p>
             </Row>
             <Row>
               <Col>Document One</Col>
-              <Col>Test</Col>
+              <Col>{documentOne.name}</Col>
             </Row>
             <Row>
               <Col>Document Two</Col>
-              <Col>Test</Col>
+              <Col>{documentTwo.name}</Col>
             </Row>
             <Row className="mt-3">
               <p className="text-primary">COI PDF UPLOAD</p>
             </Row>
             <Row>
               <Col>PDF Document</Col>
-              <Col>Test</Col>
+              <Col>{pdfDocument.name}</Col>
             </Row>
           </Form>
         </div>
@@ -143,7 +213,7 @@ const FinalDetails = (props) => {
             </button>
           </p>
           <p>
-            <button onClick={props.nextStep} className="btn btn-primary px-4">
+            <button onClick={submitHandler} className="btn btn-primary px-4">
               Submit
             </button>
           </p>
