@@ -1,0 +1,7 @@
+.content {
+  max-height: 750px !important;
+  overflow-y: scroll;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}

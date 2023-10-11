@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import "./styles/Header.css";
+import "./styles/Wizard.css";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaQuestionCircle } from "react-icons/fa";
-import { RegistrantioContext } from "../../context/registration";
+import { RegistrantioContext } from "../../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
@@ -52,9 +53,9 @@ const BusinessInfo = (props) => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="shadow-lg rounded">
-        <div className="row m-0 fw-bold header">
+    <div className="container">
+      <div className="shadow-lg ">
+        <div className="row m-0 fw-bold header rounded-top">
           <div className={`col text-center p-4 div-tab-active-next`}>
             <span className="step-number-active">1</span> Your Profile
           </div>
@@ -76,20 +77,20 @@ const BusinessInfo = (props) => {
             <span className="step-number">3</span> Final Details
           </div>
         </div>
-        <div className="p-5">
-          <div className="text-center w-50 m-auto mt-4 mb-5">
+        <div className="p-5 bg-white rounded-bottom content">
+          <div className="text-center w-50 m-auto">
             <p className="m-0">Step {props.currentStep}</p>
             <h3 className="text-primary">Business Information</h3>
             <p>Please, enter information about your company</p>
           </div>
 
-          <Form className="w-75 mt-4 mb-5 m-auto">
+          <Form className="w-75 m-auto">
             <Row>
               <p className="text-primary">GENERAL INFORMATION</p>
             </Row>
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Brand Name* </Form.Label>
                   <Form.Control
                     type="text"
@@ -99,7 +100,7 @@ const BusinessInfo = (props) => {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>
                     Brand Type*{" "}
                     <span
@@ -125,7 +126,7 @@ const BusinessInfo = (props) => {
             </Row>
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Street Address*</Form.Label>
                   <Form.Control
                     type="text"
@@ -135,7 +136,7 @@ const BusinessInfo = (props) => {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>City*</Form.Label>
                   <Form.Control
                     type="text"
@@ -147,7 +148,7 @@ const BusinessInfo = (props) => {
             </Row>
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Zip Code*</Form.Label>
                   <Form.Control
                     type="number"
@@ -157,7 +158,7 @@ const BusinessInfo = (props) => {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Tax ID Number*</Form.Label>
                   <Form.Control
                     type="password"
@@ -168,9 +169,9 @@ const BusinessInfo = (props) => {
               </Col>
             </Row>
             <Row>
-              <p className="text-primary mt-4">DOCUMENTS</p>
+              <p className="text-primary mt-2">DOCUMENTS</p>
             </Row>
-            <Row className="mb-4">
+            <Row className="mb-2">
               <Form.Label>
                 Once the following documents are signed, you'll be ready to get
                 started
@@ -190,7 +191,7 @@ const BusinessInfo = (props) => {
                 </button>
               </Col>
             </Row>
-            <Row className="mb-4">
+            <Row className="mb-2">
               <Col lg="10">
                 <Form.Group>
                   <Form.Control
@@ -207,9 +208,9 @@ const BusinessInfo = (props) => {
               </Col>
             </Row>
             <Row>
-              <p className="text-primary mt-4">COI PDF UPLOAD</p>
+              <p className="text-primary mt-2">COI PDF UPLOAD</p>
             </Row>
-            <Row className="mb-4">
+            <Row className="mb-2">
               <Col lg="10">
                 <Form.Group>
                   <Form.Control

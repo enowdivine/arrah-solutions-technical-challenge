@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronLeft } from "react-icons/fi";
-import { RegistrantioContext } from "../../context/registration";
+import { RegistrantioContext } from "../../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
@@ -81,9 +81,9 @@ const FinalDetails = (props) => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="shadow-lg rounded">
-        <div className="row m-0 fw-bold header">
+    <div className="container">
+      <div className="shadow-lg">
+        <div className="row m-0 fw-bold header rounded-top">
           <div className={`col text-center p-4 div-tab-active-next`}>
             <span className="step-number-active">1</span> Your Profile
           </div>
@@ -116,14 +116,14 @@ const FinalDetails = (props) => {
             Final Details
           </div>
         </div>
-        <div className="p-5">
-          <div className="text-center w-50 m-auto mt-4 mb-5">
+        <div className="p-5 bg-white rounded-bottom content">
+          <div className="text-center w-50 m-auto">
             <p className="m-0">Step {props.currentStep}</p>
             <h3 className="text-primary">Final Details</h3>
             <p>Confirm information below submitting</p>
           </div>
 
-          <Form className="w-75 mt-4 mb-5 m-auto">
+          <Form className="w-75 m-auto">
             <Row>
               <p className="text-primary">BASIC INFORMATION</p>
             </Row>
@@ -179,18 +179,18 @@ const FinalDetails = (props) => {
             </Row>
             <Row>
               <Col>Document One</Col>
-              <Col>{documentOne.name}</Col>
+              <Col>{documentOne?.name}</Col>
             </Row>
             <Row>
               <Col>Document Two</Col>
-              <Col>{documentTwo.name}</Col>
+              <Col>{documentTwo?.name}</Col>
             </Row>
             <Row className="mt-3">
               <p className="text-primary">COI PDF UPLOAD</p>
             </Row>
             <Row>
               <Col>PDF Document</Col>
-              <Col>{pdfDocument.name}</Col>
+              <Col>{pdfDocument?.name}</Col>
             </Row>
           </Form>
         </div>

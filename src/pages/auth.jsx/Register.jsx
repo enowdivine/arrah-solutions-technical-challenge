@@ -1,9 +1,10 @@
 import React from "react";
-import SetupWizard from "../../components/setupWizard/SetupWizard";
+import "./styles/style.css";
+import SetupWizard from "../../components/auth/setupWizard/SetupWizard";
 
 const Register = () => {
   return (
-    <div>
+    <div className="wrapper">
       <SetupWizard />
     </div>
   );

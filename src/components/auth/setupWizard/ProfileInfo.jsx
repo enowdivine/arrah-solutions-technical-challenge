@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { RegistrantioContext } from "../../context/registration";
+import { RegistrantioContext } from "../../../context/registration";
 
 const styledLink = {
   textDecoration: "none",
@@ -47,9 +47,9 @@ const ProfileInfo = (props) => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="shadow-lg rounded">
-        <div className="row m-0 fw-bold header">
+    <div className="container">
+      <div className="shadow-lg ">
+        <div className="row m-0 fw-bold header rounded-top">
           <div className={`col text-center p-4 div-tab-active`}>
             <span className="step-number-active">1</span> Your Profile
           </div>
@@ -60,7 +60,7 @@ const ProfileInfo = (props) => {
             <span className="step-number">3</span> Final Details
           </div>
         </div>
-        <div className="p-5">
+        <div className="p-5 bg-white rounded-bottom content">
           <div className="text-center w-50 m-auto mt-4 mb-5">
             <p className="m-0">Step {props.currentStep}</p>
             <h3 className="text-primary">Your Profile</h3>
