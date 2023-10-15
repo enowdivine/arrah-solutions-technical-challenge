@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Digital Coffee",
-    "slug": "digital-coffee",
+    "slug": "react-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

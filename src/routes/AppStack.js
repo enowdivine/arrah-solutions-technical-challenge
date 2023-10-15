@@ -1,28 +1,22 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { TouchableOpacity } from "react-native";
-import {
-  FontAwesome,
-  Entypo,
-  FontAwesome5,
-  AntDesign,
-} from "@expo/vector-icons";
 import theme from "../../theme";
-import HomeStack from "./HomeStack";
-import DiscoverStack from "./DiscoverStack";
-import ProfileStack from "./ProfileStack";
-import PremiumStack from "./PremiumStack";
+
+import { Entypo } from "@expo/vector-icons";
+import ProductStack from "./ProductStack";
+import AddProductStack from "./AddProductStack";
 
 const Tabs = createMaterialBottomTabNavigator();
 
-const AppStack = () => {
+export default function AppStack() {
   return (
     <Tabs.Navigator
       barStyle={{ backgroundColor: "#fff" }}
       activeColor={theme.mainColor}
     >
       <Tabs.Screen
-        name="Home"
+        name="Products"
         options={() => {
           return {
             tabBarButton: (props) => <TouchableOpacity {...props} />,
@@ -32,49 +26,21 @@ const AppStack = () => {
             ),
           };
         }}
-        component={HomeStack}
+        component={ProductStack}
       />
       <Tabs.Screen
-        name="Discover"
+        name="AddProducts"
         options={() => {
           return {
             tabBarButton: (props) => <TouchableOpacity {...props} />,
             tabBarHideOnKeyboard: true,
             tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="search" color={color} size={23} />
+              <Entypo name="clipboard" size={23} color={color} />
             ),
           };
         }}
-        component={DiscoverStack}
-      />
-      <Tabs.Screen
-        name="Premium"
-        options={() => {
-          return {
-            tabBarButton: (props) => <TouchableOpacity {...props} />,
-            tabBarHideOnKeyboard: true,
-            tabBarIcon: ({ color }) => (
-              <AntDesign name="star" color={color} size={30} />
-            ),
-          };
-        }}
-        component={PremiumStack}
-      />
-      <Tabs.Screen
-        name="Profile"
-        options={() => {
-          return {
-            tabBarButton: (props) => <TouchableOpacity {...props} />,
-            tabBarHideOnKeyboard: true,
-            tabBarIcon: ({ color }) => (
-              <FontAwesome name="user-circle" size={24} color={color} />
-            ),
-          };
-        }}
-        component={ProfileStack}
+        component={AddProductStack}
       />
     </Tabs.Navigator>
   );
-};
-
-export default AppStack;
+}

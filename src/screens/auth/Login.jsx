@@ -1,126 +1,81 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
   StyleSheet,
+  TextInput,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import theme from "../../../theme";
 import { Ionicons } from "@expo/vector-icons";
-import { globalStyles } from "../../shared/globalStyles";
+import Loading from "../../components/Loading";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/reducers/authReducer";
-import Error from "../../components/Error";
+import theme from "../../../theme";
+import { LoginReducer } from "../../redux/reducers/authReducer";
 
-const Login = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState("");
+const Login = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const loginHandler = async () => {
-    if (phoneNumber && password) {
-      try {
-        const data = {
-          phoneNumber,
-          password,
-        };
-        dispatch(login(data), setLoading(true)).then((res) => {
-          if (res.meta.requestStatus === "rejected") {
-            setError(res.payload);
-            setLoading(false);
-          }
+  const LoginHandler = () => {
+    if (email && password) {
+      const data = {
+        email,
+        password,
+      };
+      dispatch(LoginReducer(data))
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      } catch (error) {
-        setError("An error occured");
-        setLoading(false);
-      }
     } else {
-      setError("All fields are required");
-      setLoading(false);
+      console.error("All fields are required");
     }
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-      <View style={styles.wrapper}>
-        <View style={styles.heading}>
-          <Text style={styles.headingText}>Digital Coffee Login</Text>
+    <View style={styles.container}>
+      <View style={styles.authForm}>
+        <Text style={styles.header}>Enter Details To Login</Text>
+        <View style={styles.inputView}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email"
+            onChangeText={(value) => setEmail(value)}
+          />
         </View>
-        <View style={styles.loginForm}>
-          <View style={styles.textInputView}>
+        <View style={styles.inputView}>
+          <Text style={styles.label}>Password</Text>
+          <View style={styles.passwordInputView}>
             <TextInput
-              style={styles.textInput}
-              placeholder="Enter phone number"
-              keyboardType="numeric"
-              onChangeText={(value) => setPhoneNumber(value)}
+              style={styles.passwordInput}
+              secureTextEntry={showPassword ? false : true}
+              placeholder="********"
+              onChangeText={(value) => setPassword(value)}
             />
-          </View>
-          <View style={globalStyles.inputView}>
-            <View style={globalStyles.passwordInputView}>
-              <TextInput
-                style={globalStyles.passwordInput}
-                secureTextEntry={showPassword ? false : true}
-                placeholder="Enter password"
-                onChangeText={(value) => setPassword(value)}
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? "eye-off" : "eye"}
+                size={24}
+                color="black"
               />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons
-                  name={showPassword ? "eye-off" : "eye"}
-                  size={24}
-                  color="black"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View>
-            {loading ? (
-              <TouchableOpacity style={styles.loginBtn}>
-                <ActivityIndicator color="white" />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity style={styles.loginBtn} onPress={loginHandler}>
-                <Text style={styles.loginText}>LOG IN</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          {error === null ? "" : <Error error={error} />}
-          <View>
-            <Text style={styles.accountQues}>
-              Don't have an account?{" "}
-              <Text
-                style={styles.signupLink}
-                onPress={() => navigation.navigate("Signup")}
-              >
-                Signup
-              </Text>
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.accountQues}>
-              Forgot password?{" "}
-              <Text
-                style={styles.signupLink}
-                onPress={() => navigation.navigate("ForgotPassword")}
-              >
-                Click here
-              </Text>
-            </Text>
+            </TouchableOpacity>
           </View>
         </View>
+        <TouchableOpacity onPress={LoginHandler} style={styles.submitBtn}>
+          {loading ? (
+            <Loading size="small" color="#fff" />
+          ) : (
+            <Text style={styles.loginText}>Sign In</Text>
+          )}
+        </TouchableOpacity>
       </View>
-      {/* </ScrollView> */}
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -130,20 +85,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  headingText: {
+  header: {
     textAlign: "center",
-    fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: theme.mainColor,
+    marginBottom: 30,
+    fontSize: 25,
   },
-  loginForm: {
-    width: 400,
-    padding: 20,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 10,
+  authForm: {
+    padding: 30,
+    width: "100%",
+    backgroundColor: "#f4f4f4",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  label: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+    color: "grey",
   },
   textInput: {
     backgroundColor: "#fff",
@@ -154,26 +112,27 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     padding: 10,
-    marginBottom: 10,
   },
-  loginBtn: {
+  passwordInputView: {
+    backgroundColor: "#fff",
     width: "100%",
-    backgroundColor: theme.mainColor,
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 10,
-    padding: 15,
+    borderWidth: 1,
+    padding: 10,
+    flexDirection: "row",
   },
-  loginText: {
-    textAlign: "center",
-    color: "white",
-    fontWeight: "bold",
-  },
-  accountQues: {
+  passwordInput: { flexGrow: 1 },
+  submitBtn: {
+    backgroundColor: theme.mainColor,
+    width: "100%",
     marginTop: 20,
+    padding: 10,
+    borderRadius: 5,
   },
-  signupLink: {
-    fontWeight: "bold",
-    color: theme.mainColor,
-  },
+  loginText: { color: "white", textAlign: "center" },
 });
 
 export default Login;

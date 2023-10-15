@@ -1,4 +1,4 @@
 export default {
-  mainColor: "purple",
+  mainColor: "darkblue",
   lightMainColor: "#f76d6d",
 };
