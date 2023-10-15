@@ -11,6 +11,7 @@ export default class DetailsScreen extends React.Component {
   componentDidMount() {
     AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
+        // clearInterval(this.interval);  Uncomment this line to fix the memory leak
         this.interval = setInterval(this.refresh, 1000);
       } else {
         clearInterval(this.interval);

@@ -4,7 +4,8 @@ import {View, Text, Button, TextInput, SectionList} from 'react-native';
 function extractLetters(items) {
   const letters = new Set();
   items.forEach(item => letters.add(item.substring(0, 1)));
-  return Array.from(letters).sort();
+  Array.from(letters).sort();
+  return;
 }
 
 class Item extends React.Component {
@@ -36,6 +37,9 @@ class NamesList extends React.Component {
       }
     }
     const letters = extractLetters(nextProps.data);
+    // if (letters.length > 1000) {   Uncomment this if statement to fix the memory leak
+    //   letters.splice(0, 100);
+    // }
     return {
       data: nextProps.data,
       memory: new Array(100000).join('|'),
